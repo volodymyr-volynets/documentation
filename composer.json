@@ -1,0 +1,27 @@
+{
+	"name": "numbers/documentation",
+	"type": "library",
+	"description": "Documentation module for Numbers Framework",
+	"authors": [
+		{
+			"name": "Volodymyr Volynets",
+			"email": "volodymyr.volynets@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=7.0.0",
+		"oomphinc/composer-installers-extender": "~1.0"
+	},
+	"license": "Apache-2.0",
+	"extra": {
+		"installer-types": ["library"],
+		"installer-paths": {
+			"vendor/Numbers/Documentation/": ["numbers/documentation"]
+		}
+	},
+	"autoload": {
+        "psr-4": {
+            "Numbers\\Documentation\\": ""
+        }
+    }
+}
