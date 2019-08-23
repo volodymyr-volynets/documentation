@@ -83,6 +83,30 @@ class Pages extends \Object\Table {
 		'updated' => true
 	];
 
+	public $comments = [
+		'map' => [
+			'dn_repopage_tenant_id' => 'wg_comment_tenant_id',
+			'dn_repopage_module_id' => 'wg_comment_module_id',
+			'dn_repopage_id' => 'wg_comment_repopage_id'
+		]
+	];
+
+	public $documents = [
+		'map' => [
+			'dn_repopage_tenant_id' => 'wg_document_tenant_id',
+			'dn_repopage_module_id' => 'wg_document_module_id',
+			'dn_repopage_id' => 'wg_document_repopage_id'
+		]
+	];
+
+	public $tags = [
+		'map' => [
+			'dn_repopage_tenant_id' => 'wg_tag_tenant_id',
+			'dn_repopage_module_id' => 'wg_tag_module_id',
+			'dn_repopage_id' => 'wg_tag_repopage_id'
+		]
+	];
+
 	public $data_asset = [
 		'classification' => 'client_confidential',
 		'protection' => 2,

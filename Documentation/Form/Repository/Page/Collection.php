@@ -48,6 +48,49 @@ class Collection extends \Object\Form\Wrapper\Collection {
 						]
 					]
 				],
+				self::WIDGETS_ROW => [
+					'options' => [
+						'type' => 'tabs',
+						'segment' => \Object\Form\Parent2::SEGMENT_ADDITIONAL_INFORMATION,
+						'its_own_segment' => true
+					],
+					'order' => PHP_INT_MAX - 1000,
+					self::FORMS => [
+						'wg_comments' => [
+							'model' => '\Numbers\Users\Widgets\Comments\Form\List2\Comments',
+							'submodule' => 'Numbers.Users.Widgets.Comments',
+							'bypass_input' => self::BYPASS,
+							'options' => [
+								'label_name' => 'Comments',
+								'bypass_hidden_from_input' => self::BYPASS,
+								'model_table' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Pages',
+							],
+							'order' => 1,
+						],
+						'wg_documents' => [
+							'model' => '\Numbers\Users\Widgets\Documents\Form\List2\Documents',
+							'submodule' => 'Numbers.Users.Widgets.Documents',
+							'bypass_input' => self::BYPASS,
+							'options' => [
+								'label_name' => 'Documents',
+								'bypass_hidden_from_input' => self::BYPASS,
+								'model_table' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Pages',
+							],
+							'order' => 2,
+						],
+						'wg_tags' => [
+							'model' => '\Numbers\Users\Widgets\Tags\Form\List2\Tags',
+							'submodule' => 'Numbers.Users.Widgets.Tags',
+							'bypass_input' => self::BYPASS,
+							'options' => [
+								'label_name' => 'Tags',
+								'bypass_hidden_from_input' => self::BYPASS,
+								'model_table' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Pages',
+							],
+							'order' => 3,
+						],
+					]
+				]
 			]
 		],
 	];
@@ -58,6 +101,7 @@ class Collection extends \Object\Form\Wrapper\Collection {
 		}
 		if (empty($this->values['dn_repopage_id'])) {
 			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW][self::FORMS]['dn_page_repository_page_view']);
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::WIDGETS_ROW]);
 		}
 	}
 }
