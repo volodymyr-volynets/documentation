@@ -26,10 +26,10 @@ class NewVersion extends \Object\Form\Wrapper\Base {
 	public $elements = [
 		'default' => [
 			'dn_repoversion_repository_id' => [
-				'dn_repoversion_repository_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Repository', 'domain' => 'repository_id', 'null' => true, 'percent' => 100, 'required' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repositories::optionsActive', 'onchange' => 'this.form.submit();'],
+				'dn_repoversion_repository_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Repository', 'domain' => 'repository_id', 'null' => true, 'percent' => 100, 'required' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repositories::optionsActive', 'options_depends' => ['dn_repository_module_id' => 'dn_repository_module_id'], 'onchange' => 'this.form.submit();'],
 			],
 			'dn_repoversion_version_id' => [
-				'dn_repoversion_version_id' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Existing Version', 'domain' => 'version_id', 'null' => true, 'percent' => 100, 'required' => 'c', 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Versions::optionsActive', 'options_depends' => ['dn_repoversion_repository_id' => 'dn_repoversion_repository_id']],
+				'dn_repoversion_version_id' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Existing Version', 'domain' => 'version_id', 'null' => true, 'percent' => 100, 'required' => 'c', 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Versions::optionsLatestActive', 'options_depends' => ['dn_repoversion_module_id' => 'dn_repository_module_id', 'dn_repoversion_repository_id' => 'dn_repoversion_repository_id'], 'options_options' => ['i18n' => 'skip_sorting']],
 			],
 			'dn_repoversion_version_name' => [
 				'dn_repoversion_version_name' => ['order' => 1, 'row_order' => 300, 'label_name' => 'Version Name', 'domain' => 'name', 'null' => true, 'percent' => 100, 'required' => true],
@@ -39,6 +39,21 @@ class NewVersion extends \Object\Form\Wrapper\Base {
 			]
 		]
 	];
+	public $collection = [
+		'readonly' => true,
+		'model' => '\Numbers\Documentation\Documentation\Model\Repositories'
+	];
+
+	public function validate(& $form) {
+		$model = new \Numbers\Documentation\Documentation\Model\Repository\Versions();
+		if (!$model->checkUniqueConstraint('dn_repoversion_version_name', $model->pk, [
+			'dn_repoversion_module_id' => $form->values['dn_repository_module_id'],
+			'dn_repoversion_repository_id' => $form->values['dn_repoversion_repository_id'],
+			'dn_repoversion_version_name' => $form->values['dn_repoversion_version_name'],
+		])) {
+			$form->error(DANGER, \Object\Content\Messages::DUPLICATE_VALUE, 'dn_repoversion_version_name');
+		}
+	}
 
 	public function save(& $form) {
 		$model = new \Numbers\Documentation\Documentation\Model\Repository\Versions();
@@ -46,10 +61,12 @@ class NewVersion extends \Object\Form\Wrapper\Base {
 		$model->queryBuilder()->update()
 			->set(['dn_repoversion_latest' => 0])
 			->where('AND', ['dn_repoversion_repository_id', '=', $form->values['dn_repoversion_repository_id']])
+			->where('AND', ['dn_repoversion_module_id', '=', $form->values['dn_repository_module_id']])
 			->query();
 		// generate new version
 		$sequence = $model->softSequence('dn_repoversion_version_id', ['dn_repoversion_repository_id' => $form->values['dn_repoversion_repository_id']], ['dn_repoversion_repository_id']);
 		$result = $model->collection()->merge([
+			'dn_repoversion_module_id' => $form->values['dn_repository_module_id'],
 			'dn_repoversion_repository_id' => $form->values['dn_repoversion_repository_id'],
 			'dn_repoversion_version_id' => $sequence['next'],
 			'dn_repoversion_version_name' => $form->values['dn_repoversion_version_name'],
@@ -59,6 +76,7 @@ class NewVersion extends \Object\Form\Wrapper\Base {
 		if ($result['success']) {
 			$repositories_model = new \Numbers\Documentation\Documentation\Model\Repositories();
 			$result = $repositories_model->collection()->merge([
+				'dn_repository_module_id' => $form->values['dn_repository_module_id'],
 				'dn_repository_id' => $form->values['dn_repoversion_repository_id'],
 				'dn_repository_latest_version_id' => $sequence['next'],
 			], [

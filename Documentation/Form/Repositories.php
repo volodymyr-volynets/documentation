@@ -12,7 +12,6 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			'new' => true,
 			'back' => true,
 			'import' => true,
-			'activate' => ['value' => 'New Version']
 		]
 	];
 	public $containers = [
@@ -44,11 +43,12 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			'details_rendering_type' => 'table',
 			'details_new_rows' => 0,
 			'details_key' => '\Numbers\Documentation\Documentation\Model\Repository\Versions',
-			'details_pk' => ['dn_repolang_language_code'],
+			'details_pk' => ['dn_repoversion_version_id'],
 			'details_empty_warning_message' => true,
 			'details_cannot_delete' => true,
 			'order' => 35003
 		],
+		'new_version_container' => ['default_row_type' => 'grid', 'order' => 32000, 'custom_renderer' => '\Numbers\Documentation\Documentation\Form\Repositories::renderNewVersionURL']
 	];
 	public $rows = [
 		'top' => [
@@ -84,7 +84,8 @@ class Repositories extends \Object\Form\Wrapper\Base {
 				'languages' => ['container' => 'languages_container', 'order' => 100],
 			],
 			'versions' => [
-				'versions' => ['container' => 'versions_container', 'order' => 200],
+				'versions' => ['container' => 'versions_container', 'order' => 100],
+				'new_version' => ['container' => 'new_version_container', 'order' => 200],
 			]
 		],
 		'general_container' => [
@@ -92,6 +93,10 @@ class Repositories extends \Object\Form\Wrapper\Base {
 				'dn_repository_type_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Type', 'domain' => 'type_id', 'null' => true, 'percent' => 50, 'required' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Types'],
 				'dn_repository_icon' => ['order' => 2, 'label_name' => 'Icon', 'domain' => 'icon', 'null' => true, 'percent' => 50, 'method' => 'select', 'options_model' => '\Numbers\Frontend\HTML\FontAwesome\Model\Icons::options', 'searchable' => true],
 			],
+			'dn_repository_public' => [
+				'dn_repository_public' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Public', 'type' => 'boolean', 'percent' => 25],
+				'dn_repository_title_numbering' => ['order' => 2, 'label_name' => 'Title Numbering', 'type' => 'boolean', 'percent' => 25],
+			]
 		],
 		'organizations_container' => [
 			'row1' => [
@@ -124,28 +129,24 @@ class Repositories extends \Object\Form\Wrapper\Base {
 		'details' => [
 			'\Numbers\Documentation\Documentation\Model\Repository\Organizations' => [
 				'name' => 'Organizations',
-				'pk' => ['dn_repoorg_tenant_id', 'dn_repoorg_repository_id', 'dn_repoorg_organization_id'],
+				'pk' => ['dn_repoorg_tenant_id', 'dn_repoorg_module_id', 'dn_repoorg_repository_id', 'dn_repoorg_organization_id'],
 				'type' => '1M',
-				'map' => ['dn_repository_tenant_id' => 'dn_repoorg_tenant_id', 'dn_repository_id' => 'dn_repoorg_repository_id']
+				'map' => ['dn_repository_tenant_id' => 'dn_repoorg_tenant_id', 'dn_repository_module_id' => 'dn_repoorg_module_id', 'dn_repository_id' => 'dn_repoorg_repository_id']
 			],
 			'\Numbers\Documentation\Documentation\Model\Repository\Languages' => [
 				'name' => 'Languages',
-				'pk' => ['dn_repolang_tenant_id', 'dn_repolang_repository_id', 'dn_repolang_language_code'],
+				'pk' => ['dn_repolang_tenant_id', 'dn_repolang_module_id', 'dn_repolang_repository_id', 'dn_repolang_language_code'],
 				'type' => '1M',
-				'map' => ['dn_repository_tenant_id' => 'dn_repolang_tenant_id', 'dn_repository_id' => 'dn_repolang_repository_id']
+				'map' => ['dn_repository_tenant_id' => 'dn_repolang_tenant_id', 'dn_repository_module_id' => 'dn_repolang_module_id', 'dn_repository_id' => 'dn_repolang_repository_id']
 			],
 			'\Numbers\Documentation\Documentation\Model\Repository\Versions' => [
 				'name' => 'Versions',
-				'pk' => ['dn_repoversion_tenant_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_id'],
+				'pk' => ['dn_repoversion_tenant_id', 'dn_repoversion_module_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_id'],
 				'type' => '1M',
-				'map' => ['dn_repository_tenant_id' => 'dn_repoversion_tenant_id', 'dn_repository_id' => 'dn_repoversion_repository_id']
+				'map' => ['dn_repository_tenant_id' => 'dn_repoversion_tenant_id', 'dn_repository_module_id' => 'dn_repoversion_module_id', 'dn_repository_id' => 'dn_repoversion_repository_id']
 			]
 		]
 	];
-
-	public function refresh(& $form) {
-
-	}
 
 	public function validate(& $form) {
 		// default language code
@@ -168,6 +169,16 @@ class Repositories extends \Object\Form\Wrapper\Base {
 		if (empty($form->values['dn_repository_code'])) {
 			$sequence = new \Numbers\Documentation\Documentation\Model\Repository\CodeSequence();
 			$form->values['dn_repository_code'] = $sequence->nextval('advanced');
+		}
+	}
+
+	public function renderNewVersionURL(& $form) {
+		if (!empty($form->values['dn_repository_id'])) {
+			return \HTML::a(['value' => \HTML::icon(['type' => 'fas fa-link']) . ' ' . i18n(null, 'New Version'), 'href' => \Request::buildURL(\Application::get('mvc.controller') . '/_Activate', [
+				'dn_repoversion_repository_id' => $form->values['dn_repository_id'],
+			])]);
+		} else {
+			return '';
 		}
 	}
 }

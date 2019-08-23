@@ -11,7 +11,7 @@ class Types extends \Object\Data {
 	];
 	public $data = [
 		10 => ['dn_repotype_name' => 'Documentation'],
-		20 => ['dn_repotype_name' => 'Email Template(s)'],
+		20 => ['dn_repotype_name' => 'Template(s)'],
 		30 => ['dn_repotype_name' => 'Blog'],
 	];
 }

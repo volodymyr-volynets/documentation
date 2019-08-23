@@ -7,8 +7,9 @@ class Languages extends \Object\Table {
 	public $module_code = 'DN';
 	public $title = 'D/N Repository Languages';
 	public $name = 'dn_repository_languages';
-	public $pk = ['dn_repolang_tenant_id', 'dn_repolang_repository_id', 'dn_repolang_language_code'];
+	public $pk = ['dn_repolang_tenant_id', 'dn_repolang_module_id', 'dn_repolang_repository_id', 'dn_repolang_language_code'];
 	public $tenant = true;
+	public $module = true;
 	public $orderby = [
 		'dn_repolang_timestamp' => SORT_ASC
 	];
@@ -16,6 +17,7 @@ class Languages extends \Object\Table {
 	public $column_prefix = 'dn_repolang_';
 	public $columns = [
 		'dn_repolang_tenant_id' => ['name' => 'Tenant #', 'domain' => 'tenant_id'],
+		'dn_repolang_module_id' => ['name' => 'Module #', 'domain' => 'module_id'],
 		'dn_repolang_timestamp' => ['name' => 'Timestamp', 'domain' => 'timestamp_now'],
 		'dn_repolang_repository_id' => ['name' => 'Repository #', 'domain' => 'repository_id'],
 		'dn_repolang_language_code' => ['name' => 'Language', 'domain' => 'language_code'],
@@ -23,12 +25,12 @@ class Languages extends \Object\Table {
 		'dn_repolang_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [
-		'dn_repository_languages_pk' => ['type' => 'pk', 'columns' => ['dn_repolang_tenant_id', 'dn_repolang_repository_id', 'dn_repolang_language_code']],
+		'dn_repository_languages_pk' => ['type' => 'pk', 'columns' => ['dn_repolang_tenant_id', 'dn_repolang_module_id', 'dn_repolang_repository_id', 'dn_repolang_language_code']],
 		'dn_repolang_repository_id_fk' => [
 			'type' => 'fk',
-			'columns' => ['dn_repolang_tenant_id', 'dn_repolang_repository_id'],
+			'columns' => ['dn_repolang_tenant_id', 'dn_repolang_module_id', 'dn_repolang_repository_id'],
 			'foreign_model' => '\Numbers\Documentation\Documentation\Model\Repositories',
-			'foreign_columns' => ['dn_repository_tenant_id', 'dn_repository_id']
+			'foreign_columns' => ['dn_repository_tenant_id', 'dn_repository_module_id', 'dn_repository_id']
 		],
 		'dn_repolang_language_code_fk' => [
 			'type' => 'fk',

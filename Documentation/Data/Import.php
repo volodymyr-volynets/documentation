@@ -17,7 +17,7 @@ class Import extends \Object\Import {
 					'sm_module_abbreviation' => 'D/N',
 					'sm_module_icon' => 'fas fa-font',
 					'sm_module_transactions' => 0,
-					'sm_module_multiple' => 0,
+					'sm_module_multiple' => 1,
 					'sm_module_activation_model' => null,
 					'sm_module_custom_activation' => 0,
 					'sm_module_inactive' => 0,

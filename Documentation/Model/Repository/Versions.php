@@ -7,8 +7,9 @@ class Versions extends \Object\Table {
 	public $module_code = 'DN';
 	public $title = 'D/N Repository Versions';
 	public $name = 'dn_repository_versions';
-	public $pk = ['dn_repoversion_tenant_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_id'];
+	public $pk = ['dn_repoversion_tenant_id', 'dn_repoversion_module_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_id'];
 	public $tenant = true;
+	public $module = true;
 	public $orderby = [
 		'dn_repoversion_timestamp' => SORT_ASC
 	];
@@ -16,6 +17,7 @@ class Versions extends \Object\Table {
 	public $column_prefix = 'dn_repoversion_';
 	public $columns = [
 		'dn_repoversion_tenant_id' => ['name' => 'Tenant #', 'domain' => 'tenant_id'],
+		'dn_repoversion_module_id' => ['name' => 'Module #', 'domain' => 'module_id'],
 		'dn_repoversion_timestamp' => ['name' => 'Timestamp', 'domain' => 'timestamp_now'],
 		'dn_repoversion_repository_id' => ['name' => 'Repository #', 'domain' => 'repository_id'],
 		'dn_repoversion_version_id' => ['name' => 'Version #', 'domain' => 'version_id'],
@@ -24,12 +26,13 @@ class Versions extends \Object\Table {
 		'dn_repoversion_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [
-		'dn_repository_versions_pk' => ['type' => 'pk', 'columns' => ['dn_repoversion_tenant_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_id']],
+		'dn_repository_versions_pk' => ['type' => 'pk', 'columns' => ['dn_repoversion_tenant_id', 'dn_repoversion_module_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_id']],
+		'dn_repoversion_version_name_un' => ['type' => 'unique', 'columns' => ['dn_repoversion_tenant_id', 'dn_repoversion_module_id', 'dn_repoversion_repository_id', 'dn_repoversion_version_name']],
 		'dn_repoversion_repository_id_fk' => [
 			'type' => 'fk',
-			'columns' => ['dn_repoversion_tenant_id', 'dn_repoversion_repository_id'],
+			'columns' => ['dn_repoversion_tenant_id', 'dn_repoversion_module_id', 'dn_repoversion_repository_id'],
 			'foreign_model' => '\Numbers\Documentation\Documentation\Model\Repositories',
-			'foreign_columns' => ['dn_repository_tenant_id', 'dn_repository_id']
+			'foreign_columns' => ['dn_repository_tenant_id', 'dn_repository_module_id', 'dn_repository_id']
 		],
 	];
 	public $indexes = [];
@@ -37,6 +40,8 @@ class Versions extends \Object\Table {
 	public $audit = false;
 	public $options_map = [
 		'dn_repoversion_version_name' => 'name',
+		'dn_repoversion_latest' => 'latest',
+		'dn_repoversion_timestamp' => 'timestamp',
 		'dn_repoversion_inactive' => 'inactive'
 	];
 	public $options_active = [
@@ -50,9 +55,24 @@ class Versions extends \Object\Table {
 	public $cache_tags = [];
 	public $cache_memory = false;
 
+	public $unique = [
+		'dn_repoversion_version_name' => 'dn_repoversion_version_name_un',
+	];
+
 	public $data_asset = [
 		'classification' => 'client_confidential',
 		'protection' => 2,
 		'scope' => 'enterprise'
 	];
+
+	public function optionsLatestActive(array $options = []) {
+		$options['orderby'] = ['dn_repoversion_timestamp' => SORT_DESC];
+		$result = $this->optionsActive($options);
+		foreach ($result as $k => $v) {
+			if (!empty($v['latest'])) {
+				$result[$k]['name'].= \Format::$symbol_semicolon . ' ' . i18n(null, '(Latest)');
+			}
+		}
+		return $result;
+	}
 }

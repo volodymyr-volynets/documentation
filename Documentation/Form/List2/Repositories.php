@@ -73,4 +73,8 @@ class Repositories extends \Object\Form\Wrapper\List2 {
 		'dn_repository_id' => ['name' => 'Repository #'],
 		'dn_repository_name' => ['name' => 'Name']
 	];
+	public $collection = [
+		'readonly' => true,
+		'model' => '\Numbers\Documentation\Documentation\Model\Repositories'
+	];
 }

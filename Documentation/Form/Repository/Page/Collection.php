@@ -3,16 +3,21 @@
 namespace Numbers\Documentation\Documentation\Form\Repository\Page;
 class Collection extends \Object\Form\Wrapper\Collection {
 	public $collection_link = 'dn_repository_page_collection';
+	const BYPASS = ['dn_repository_id', 'dn_repository_version_id', 'dn_repository_language_code', 'dn_repopage_id'];
 	public $data = [
-		'step1' => [
+		self::MAIN_SCREEN => [
 			'order' => 1000,
+			'options' => [
+				'segment' => \Object\Form\Parent2::SEGMENT_FORM,
+			],
 			self::ROWS => [
 				self::HEADER_ROW => [
 					'order' => 100,
 					self::FORMS => [
 						'dn_page_repositories' => [
 							'model' => '\Numbers\Documentation\Documentation\Form\Repository\Page\Repositories',
-							'bypass_values' => ['dn_repository_id'],
+							'flag_main_form' => true,
+							'bypass_values' => self::BYPASS,
 							'options' => [
 								'percent' => 100
 							],
@@ -20,34 +25,39 @@ class Collection extends \Object\Form\Wrapper\Collection {
 						]
 					]
 				],
-				/*
 				self::MAIN_ROW => [
 					'order' => 200,
 					self::FORMS => [
-						'b4_register_step1' => [
-							'model' => '\Form\Register\Step1',
-							'bypass_values' => ['__wizard_step', 'b4_register_id'],
+						'dn_page_repository_page_tree' => [
+							'model' => '\Numbers\Documentation\Documentation\Form\Repository\Page\PagesTree',
+							'bypass_input' => self::BYPASS,
 							'options' => [
-								'segment' => null,
-								'percent' => 100
+								'bypass_hidden_from_input' => self::BYPASS,
+								'percent' => 30
 							],
 							'order' => 1
+						],
+						'dn_page_repository_page_view' => [
+							'model' => '\Numbers\Documentation\Documentation\Form\Repository\Page\PagesView',
+							'bypass_input' => self::BYPASS,
+							'options' => [
+								'bypass_hidden_from_input' => self::BYPASS,
+								'percent' => 70
+							],
+							'order' => 2
 						]
 					]
-				]
-				*/
+				],
 			]
 		],
 	];
 
 	public function distribute() {
-		$this->values['__wizard_step'] = (int) ($this->values['__wizard_step'] ?? 1);
-		if (empty($this->values['__wizard_step'])) $this->values['__wizard_step'] = 1;
-		$this->collection_screen_link = 'step' . $this->values['__wizard_step'];
-		// make everything look success
-		if ($this->values['__wizard_step'] == 5) {
-			$this->data['step5'][$this::ROWS][self::HEADER_ROW][$this::FORMS]['register_step5']['options']['wizard']['type'] = 'success';
-			$this->data['step5']['options']['segment']['type'] = 'success';
+		if (empty($this->values['dn_repository_id'])) {
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW]);
+		}
+		if (empty($this->values['dn_repopage_id'])) {
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW][self::FORMS]['dn_page_repository_page_view']);
 		}
 	}
 }
