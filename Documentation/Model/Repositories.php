@@ -26,12 +26,19 @@ class Repositories extends \Object\Table {
 		'dn_repository_title_numbering' => ['name' => 'Title Numbering', 'type' => 'boolean'],
 		'dn_repository_default_language_code' => ['name' => 'Default Language', 'domain' => 'language_code', 'null' => true],
 		'dn_repository_latest_version_id' => ['name' => 'Latest Version #', 'domain' => 'version_id', 'null' => true],
+		'dn_repository_catalog_code' => ['name' => 'Catalog Code', 'domain' => 'group_code'],
 		'dn_repository_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [
 		'dn_repositories_pk' => ['type' => 'pk', 'columns' => ['dn_repository_tenant_id', 'dn_repository_module_id', 'dn_repository_id']],
 		'dn_repository_code_un' => ['type' => 'unique', 'columns' => ['dn_repository_tenant_id', 'dn_repository_module_id', 'dn_repository_code']],
 		'dn_repository_default_language_code_un' => ['type' => 'unique', 'columns' => ['dn_repository_tenant_id', 'dn_repository_module_id', 'dn_repository_id', 'dn_repository_default_language_code']],
+		'dn_repository_catalog_code_fk' => [
+			'type' => 'fk',
+			'columns' => ['dn_repository_tenant_id', 'dn_repository_catalog_code'],
+			'foreign_model' => '\Numbers\Users\Documents\Base\Model\Catalogs',
+			'foreign_columns' => ['dt_catalog_tenant_id', 'dt_catalog_code']
+		],
 	];
 	public $indexes = [
 		'dn_repositories_fulltext_idx' => ['type' => 'fulltext', 'columns' => ['dn_repository_code', 'dn_repository_name']]

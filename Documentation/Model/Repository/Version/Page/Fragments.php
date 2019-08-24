@@ -27,6 +27,16 @@ class Fragments extends \Object\Table {
 		'dn_repopgfragm_name' => ['name' => 'Title', 'domain' => 'name', 'null' => true],
 		'dn_repopgfragm_body' => ['name' => 'Body', 'type' => 'text', 'null' => true],
 		'dn_repopgfragm_order' => ['name' => 'Order', 'domain' => 'order'],
+		'dn_repopgfragm_file_1' => ['name' => 'File 1', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_2' => ['name' => 'File 2', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_3' => ['name' => 'File 3', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_4' => ['name' => 'File 4', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_5' => ['name' => 'File 5', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_6' => ['name' => 'File 6', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_7' => ['name' => 'File 7', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_8' => ['name' => 'File 8', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_9' => ['name' => 'File 9', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_file_10' => ['name' => 'File 10', 'domain' => 'file_id', 'null' => true],
 		'dn_repopgfragm_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [

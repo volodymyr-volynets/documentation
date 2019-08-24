@@ -96,6 +96,7 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			'dn_repository_public' => [
 				'dn_repository_public' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Public', 'type' => 'boolean', 'percent' => 25],
 				'dn_repository_title_numbering' => ['order' => 2, 'label_name' => 'Title Numbering', 'type' => 'boolean', 'percent' => 25],
+				'dn_repository_catalog_code' => ['order' => 3, 'label_name' => 'Document Catalog', 'domain' => 'group_code', 'null' => true, 'required' => true, 'percent' => 50, 'method' => 'select', 'options_model' => '\Numbers\Users\Documents\Base\Model\Catalogs::optionsActive'],
 			]
 		],
 		'organizations_container' => [

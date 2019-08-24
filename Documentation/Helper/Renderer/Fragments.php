@@ -30,6 +30,13 @@ class Fragments {
 				$menu['options']['edit']['options'] = [
 					'dn_page_repository_fragment_edit' => null,
 					'dn_page_repository_fragment_translate' => null,
+					'dn_page_repository_fragment_delete' => null,
+				];
+			} else if (in_array($v0['dn_repopgfragm_type_code'], ['FILE', 'IMAGE'])) {
+				$menu['options']['edit']['options'] = [
+					'dn_page_repository_fragment_file_edit' => null,
+					'dn_page_repository_fragment_file_translate' => null,
+					'dn_page_repository_fragment_delete' => null,
 				];
 			}
 			foreach ($menu['options'] as $k => $v) {
@@ -171,6 +178,58 @@ class Fragments {
 				$name = \HTML::tag(['tag' => 'h4', 'value' => $name]);
 			}
 			$result.= \HTML::callout(['type' => 'default', 'value' => $name . $body]);
+		$result.= '</div>';
+		return $result;
+	}
+
+	/**
+	 * File fragment
+	 *
+	 * @param array $value
+	 * @return string
+	 */
+	public static function renderFormFILE($value) {
+		$translation = current($value['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Translations']);
+		if (!empty($translation)) {
+			$name = $translation['dn_repofragtransl_name'] ?? $value['dn_repopgfragm_name'];
+			$body = \Numbers\Users\Widgets\Comments\Helper\Files::generateURLS($translation, 'dn_repofragtransl_file_', 10);
+		} else {
+			$name = $value['dn_repopgfragm_name'];
+			$body = \Numbers\Users\Widgets\Comments\Helper\Files::generateURLS($value, 'dn_repopgfragm_file_', 10);
+		}
+		$result = '<div class="form_dn_page_repository_page_view_form_fragment_file">';
+			$result.= \HTML::div(['value' => $body]);
+			if (!empty($name)) {
+				$result.= \HTML::div(['class' => 'form_dn_page_repository_page_view_form_fragment_code_title', 'value' => $name]);
+			}
+		$result.= '</div>';
+		return $result;
+	}
+
+	/**
+	 * Image fragment
+	 *
+	 * @param array $value
+	 * @return string
+	 */
+	public static function renderFormIMAGE($value) {
+		$translation = current($value['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Translations']);
+		$body = '';
+		if (!empty($translation)) {
+			$name = $translation['dn_repofragtransl_name'] ?? $value['dn_repopgfragm_name'];
+			$temp_body = \Numbers\Users\Widgets\Comments\Helper\Files::generateOnlyURLS($translation, 'dn_repofragtransl_file_', 10);
+		} else {
+			$name = $value['dn_repopgfragm_name'];
+			$temp_body = \Numbers\Users\Widgets\Comments\Helper\Files::generateOnlyURLS($value, 'dn_repopgfragm_file_', 10);
+		}
+		foreach ($temp_body as $v) {
+			$body.= \HTML::img(['src' => $v['href'], 'alt' => $v['name'], 'width' => '100%']) . '<br/>';
+		}
+		$result = '<div class="form_dn_page_repository_page_view_form_fragment_file">';
+			$result.= \HTML::div(['value' => $body]);
+			if (!empty($name)) {
+				$result.= \HTML::div(['class' => 'form_dn_page_repository_page_view_form_fragment_code_title', 'value' => $name]);
+			}
 		$result.= '</div>';
 		return $result;
 	}

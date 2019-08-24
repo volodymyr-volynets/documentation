@@ -9,7 +9,9 @@ class Titles {
 	 * @param object $form
 	 */
 	public static function renderForm(& $form, & $options, & $value, & $neighbouring_values) {
-		$result = '<h1>';
+		$result = '';
+		$result.= \HTML::a(['id' => 'page_title']);
+		$result.= '<h1>';
 		if (!empty($form->values['dn_repopage_title_number'])) {
 			$result.= \Format::id($form->values['dn_repopage_title_number']) . ' ';
 		}

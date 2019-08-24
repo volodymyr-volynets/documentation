@@ -61,7 +61,7 @@ class PagesView extends \Object\Form\Wrapper\Base {
 				'readonly' => true,
 				'details' => [
 					'\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Translations' => [
-						'name' => 'Page Translations',
+						'name' => 'Page Fragment Translations',
 						'pk' => ['dn_repofragtransl_tenant_id', 'dn_repofragtransl_module_id', 'dn_repofragtransl_repopage_id', 'dn_repofragtransl_repopgfragm_id', 'dn_repofragtransl_language_code'],
 						'type' => '1M',
 						'map' => ['dn_repopgfragm_tenant_id' => 'dn_repofragtransl_tenant_id', 'dn_repopgfragm_module_id' => 'dn_repofragtransl_module_id', 'dn_repopgfragm_repopage_id' => 'dn_repofragtransl_repopage_id', 'dn_repopgfragm_id' => 'dn_repofragtransl_repopgfragm_id'],
@@ -101,10 +101,10 @@ class PagesView extends \Object\Form\Wrapper\Base {
 		],
 		'dn_page_repository_fragment_new' => [
 			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowFragmentNew',
-			'label_name' => 'New Text Fragment',
+			'label_name' => 'New Paragraph',
 			'actions' => [
 				'button' => [
-					'label_name' => 'New Text Paragraph',
+					'label_name' => 'New Paragraph',
 					'url_open' => true,
 					'acl_controller_actions' => [['Edit', 'Record_New']],
 					'icon' => 'fas fa-pen-square',
@@ -113,7 +113,7 @@ class PagesView extends \Object\Form\Wrapper\Base {
 		],
 		'dn_page_repository_fragment_edit' => [
 			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowFragmentEdit',
-			'label_name' => 'Edit Text Fragment',
+			'label_name' => 'Edit Paragraph',
 			'actions' => [
 				'button' => [
 					'label_name' => 'Edit Paragraph',
@@ -132,6 +132,56 @@ class PagesView extends \Object\Form\Wrapper\Base {
 					'url_open' => true,
 					'acl_controller_actions' => [['Edit', 'Record_Edit']],
 					'icon' => 'far fa-flag',
+				],
+			]
+		],
+		'dn_page_repository_fragment_file_new' => [
+			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowFragmentFileNew',
+			'label_name' => 'New File',
+			'actions' => [
+				'button' => [
+					'label_name' => 'New File',
+					'url_open' => true,
+					'acl_controller_actions' => [['Edit', 'Record_New']],
+					'icon' => 'fas fa-link',
+				],
+			]
+		],
+		'dn_page_repository_fragment_file_edit' => [
+			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowFragmentFileEdit',
+			'label_name' => 'Edit File',
+			'actions' => [
+				'button' => [
+					'label_name' => 'Edit File',
+					'url_open' => true,
+					'acl_controller_actions' => [['Edit', 'Record_Edit']],
+					'icon' => 'fas fa-link',
+				],
+			]
+		],
+		'dn_page_repository_fragment_file_translate' => [
+			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowFragmentFileTranslate',
+			'label_name' => 'Translate File',
+			'actions' => [
+				'button' => [
+					'label_name' => 'Translate File',
+					'url_open' => true,
+					'acl_controller_actions' => [['Edit', 'Record_Edit']],
+					'icon' => 'far fa-flag',
+				],
+			]
+		],
+		'dn_page_repository_fragment_delete' => [
+			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowFragmentDelete',
+			'label_name' => 'Delete Fragment',
+			'actions' => [
+				'button' => [
+					'label_name' => 'Delete Fragment',
+					'url_open' => true,
+					'acl_controller_actions' => [['Edit', 'Record_Delete']],
+					'icon' => 'far fa-trash-alt',
+					'confirm' => true,
+					'options' => ['__submit_save' => 1, '__submit_delete' => 1, '__hide_popup_window' => true],
 				],
 			]
 		],
@@ -155,6 +205,7 @@ class PagesView extends \Object\Form\Wrapper\Base {
 				]],
 				'new' => ['href' => 'javascript:void(0)', 'value' => i18n(null, 'New'), 'options' => [
 					'dn_page_repository_fragment_new' => null,
+					'dn_page_repository_fragment_file_new' => null,
 				]],
 			],
 		];

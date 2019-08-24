@@ -17,8 +17,8 @@ class Types extends \Object\Data {
 	];
 	public $data = [
 		'TEXT' => ['dn_repopgfrgmtype_name' => 'Text', 'dn_repopgfrgmtype_group' => 'TEXT', 'dn_repopgfrgmtype_icon' => 'far fa-file-alt'],
-		'IMAGE' => ['dn_repopgfrgmtype_name' => 'Image', 'dn_repopgfrgmtype_group' => 'FILE', 'dn_repopgfrgmtype_icon' => 'far fa-file-image'],
-		'FILE' => ['dn_repopgfrgmtype_name' => 'File', 'dn_repopgfrgmtype_group' => 'FILE', 'dn_repopgfrgmtype_icon' => 'far fa-file-excel'],
+		'IMAGE' => ['dn_repopgfrgmtype_name' => 'Image(s)', 'dn_repopgfrgmtype_group' => 'FILE', 'dn_repopgfrgmtype_icon' => 'far fa-file-image'],
+		'FILE' => ['dn_repopgfrgmtype_name' => 'File(s)', 'dn_repopgfrgmtype_group' => 'FILE', 'dn_repopgfrgmtype_icon' => 'far fa-file-excel'],
 		'NOTE' => ['dn_repopgfrgmtype_name' => 'Note', 'dn_repopgfrgmtype_group' => 'TEXT', 'dn_repopgfrgmtype_icon' => 'far fa-sticky-note'],
 		'CODE' => ['dn_repopgfrgmtype_name' => 'Code', 'dn_repopgfrgmtype_group' => 'TEXT', 'dn_repopgfrgmtype_icon' => 'far fa-file-code'],
 		'QUOTE' => ['dn_repopgfrgmtype_name' => 'Quote', 'dn_repopgfrgmtype_group' => 'TEXT', 'dn_repopgfrgmtype_icon' => 'fas fa-quote-left'],

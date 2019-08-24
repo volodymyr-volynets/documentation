@@ -120,6 +120,7 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 	}
 
 	public function renderTreeDocumentField(& $form, & $rows, & $data) {
+		$filename = urlencode(($data['dn_repopage_toc_name'] ?? $data['dn_repopage_name']) . '.html');
 		if (!empty($data['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Translations'])) {
 			$temp = current($data['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Translations']);
 			$name = ($temp['dn_repopgtransl_toc_name'] ?? $temp['dn_repopgtransl_name']) . ' ';
@@ -134,14 +135,14 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 		if (!empty($data['dn_repopage_icon'])) {
 			$name = \HTML::icon(['type' => $data['dn_repopage_icon']]) . ' ' . $name;
 		}
-		$href = \Request::buildURL(\Application::get('mvc.controller') . '/_Edit', [
-			'dn_repository_module_id' => $form->values['__module_id'],
-			'__module_id' => $form->values['__module_id'],
-			'dn_repository_id' => $form->values['dn_repository_id'],
-			'dn_repository_version_id' => $form->values['dn_repository_version_id'],
-			'dn_repository_language_code' => $form->values['dn_repository_language_code'],
-			'dn_repopage_id' => $data['dn_repopage_id'],
+		$hash = \Request::hash([
+			$form->values['__module_id'],
+			$form->values['dn_repository_id'],
+			$form->values['dn_repository_version_id'],
+			$form->values['dn_repository_language_code'],
+			$data['dn_repopage_id'],
 		]);
+		$href = \Request::buildURL(\Application::get('mvc.controller') . '/_Edit/' . $hash . '/' . $filename, [], '', 'page_title');
 		$result = \HTML::a(['value' => $name, 'href' => $href]);
 		return [
 			'name' => $result,
