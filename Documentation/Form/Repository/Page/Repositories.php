@@ -26,7 +26,8 @@ class Repositories extends \Object\Form\Wrapper\Base {
 				'dn_repository_language_code' => ['order' => 3, 'label_name' => 'Language', 'domain' => 'language_code', 'null' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\DataSource\Repository\Languages::optionsActive', 'no_choose' => true, 'options_depends' => ['dn_repolang_module_id' => 'dn_repository_module_id', 'dn_repolang_repository_id' => 'dn_repository_id'], 'onchange' => 'this.form.submit();', 'preserved' => true],
 			],
 			self::HIDDEN => [
-				'dn_repopage_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
+				'dn_repopage_id' => ['order' => 1, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
+				'__page_deleted' => ['order' => 2, 'label_name' => 'Page Deleted Flag', 'type' => 'boolean', 'null' => true, 'method' => 'hidden', 'preserved' => true],
 			]
 		],
 	];
@@ -78,6 +79,12 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			} else {
 				$form->values['dn_repopage_id'] = null;
 			}
+		}
+	}
+
+	public function refresh(& $form) {
+		if (!empty($form->values['__page_deleted'])) {
+			$form->error(SUCCESS, \Object\Content\Messages::RECORD_DELETED);
 		}
 	}
 }

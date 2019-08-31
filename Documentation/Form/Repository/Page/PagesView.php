@@ -185,6 +185,20 @@ class PagesView extends \Object\Form\Wrapper\Base {
 				],
 			]
 		],
+		'dn_page_repository_page_delete' => [
+			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowPageDelete',
+			'label_name' => 'Delete Page',
+			'actions' => [
+				'button' => [
+					'label_name' => 'Delete Page',
+					'url_open' => true,
+					'acl_controller_actions' => [['Edit', 'Record_Delete']],
+					'icon' => 'far fa-trash-alt',
+					'confirm' => true,
+					'options' => ['__submit_save' => 1, '__submit_delete' => 1, '__hide_popup_window' => true],
+				],
+			]
+		]
 	];
 
 	public function renderActions(& $form) {
@@ -202,6 +216,7 @@ class PagesView extends \Object\Form\Wrapper\Base {
 				'edit' => ['href' => 'javascript:void(0)', 'value' => i18n(null, 'Edit'), 'options' => [
 					'dn_page_repository_page_edit' => null,
 					'dn_page_repository_page_translate' => null,
+					'dn_page_repository_page_delete' => null,
 				]],
 				'new' => ['href' => 'javascript:void(0)', 'value' => i18n(null, 'New'), 'options' => [
 					'dn_page_repository_fragment_new' => null,
@@ -241,7 +256,9 @@ class PagesView extends \Object\Form\Wrapper\Base {
 			$current_parent_id = $temp[$current_parent_id]['parent_id'];
 			unset($temp[$current_parent_id2]);
 		}
-		return '<table width="100%"><tr><td width="50%">' . implode(' / ', $breadcrumbs) . '</td><td width="50%" align="right">' . \HTML::menuMini($menu) . '</td></tr></table>';
+		$result = \HTML::a(['id' => 'page_title']);
+		$result.= '<table width="100%"><tr><td width="50%">' . implode(' / ', $breadcrumbs) . '</td><td width="50%" align="right">' . \HTML::menuMini($menu) . '</td></tr></table>';
+		return $result;
 	}
 
 	public function renderChildPages(& $form) {
