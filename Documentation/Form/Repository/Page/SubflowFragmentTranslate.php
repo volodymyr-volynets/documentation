@@ -40,7 +40,8 @@ class SubflowFragmentTranslate extends \Object\Form\Wrapper\Base {
 		'buttons' => [
 			self::BUTTONS => [
 				self::BUTTON_SUBMIT_SAVE => self::BUTTON_SUBMIT_SAVE_DATA,
-				'__load_original' => ['order' => 200, 'button_group' => 'left', 'value' => 'Load Original Language', 'type' => 'success', 'method' => 'button2', 'icon' => 'far fa-file', 'accesskey' => 'a', 'process_refresh' => true]
+				'__load_original' => ['order' => 200, 'button_group' => 'left', 'value' => 'Load Original Language', 'type' => 'success', 'method' => 'button2', 'icon' => 'far fa-file', 'accesskey' => 'a', 'process_refresh' => true],
+				self::BUTTON_SUBMIT_DELETE => self::BUTTON_SUBMIT_DELETE_DATA,
 			]
 		]
 	];
@@ -71,7 +72,7 @@ class SubflowFragmentTranslate extends \Object\Form\Wrapper\Base {
 			}
 		}
 		// code type
-		if ($form->values['dn_repofragtransl_type_code'] == 'CODE') {
+		if (($form->values['dn_repofragtransl_type_code'] ?? '') == 'CODE') {
 			$form->element('top', 'dn_repofragtransl_body', 'dn_repofragtransl_body', ['method' => 'textarea', 'rows' => 10]);
 			if ($form->values['dn_repofragtransl_body'] == '<p>&nbsp;</p>') {
 				$form->values['dn_repofragtransl_body'] = '';

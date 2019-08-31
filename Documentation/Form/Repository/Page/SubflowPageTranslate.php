@@ -39,6 +39,7 @@ class SubflowPageTranslate extends \Object\Form\Wrapper\Base {
 		'buttons' => [
 			self::BUTTONS => [
 				self::BUTTON_SUBMIT_SAVE => self::BUTTON_SUBMIT_SAVE_DATA,
+				self::BUTTON_SUBMIT_DELETE => self::BUTTON_SUBMIT_DELETE_DATA,
 			]
 		]
 	];
