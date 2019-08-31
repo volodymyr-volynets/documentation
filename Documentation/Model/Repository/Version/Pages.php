@@ -22,7 +22,7 @@ class Pages extends \Object\Table {
 		'dn_repopage_repository_id' => ['name' => 'Repository #', 'domain' => 'repository_id'],
 		'dn_repopage_version_id' => ['name' => 'Version #', 'domain' => 'version_id'],
 		'dn_repopage_parent_repopage_id' => ['name' => 'Parent Page #', 'domain' => 'page_id', 'null' => true],
-		'dn_repopage_order' => ['name' => 'Order', 'domain' => 'order'],
+		'dn_repopage_order' => ['name' => 'Order', 'domain' => 'big_order'],
 		'dn_repopage_title_number' => ['name' => 'Title Number', 'domain' => 'title_number', 'null' => true],
 		'dn_repopage_name' => ['name' => 'Title', 'domain' => 'name'],
 		'dn_repopage_toc_name' => ['name' => 'Title (Table of Contents)', 'domain' => 'name', 'null' => true],

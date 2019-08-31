@@ -23,7 +23,7 @@ class SubflowPageNew extends \Object\Form\Wrapper\Base {
 				'dn_repopage_parent_repopage_id' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Parent Page', 'domain' => 'page_id', 'null' => true, 'method' => 'select', 'tree' => true, 'searchable' => true, 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Pages::optionsGrouppedTree', 'options_depends' => ['dn_repopage_module_id' => '__module_id', 'dn_repopage_repository_id' => 'dn_repository_id', 'dn_repopage_version_id' => 'dn_repository_version_id'], 'options_options' => ['i18n' => 'skip_sorting'], 'onchange' => 'this.form.submit();'],
 			],
 			'dn_repopage_order' => [
-				'dn_repopage_order' => ['order' => 1, 'row_order' => 300, 'label_name' => 'Order', 'domain' => 'order', 'null' => true, 'required' => true],
+				'dn_repopage_order' => ['order' => 1, 'row_order' => 300, 'label_name' => 'Order', 'domain' => 'big_order', 'null' => true, 'required' => true],
 				'dn_repopage_title_number' => ['order' => 2, 'label_name' => 'Title Number', 'domain' => 'title_number', 'null' => true, 'required' => 'c'],
 			],
 			'dn_repopage_name' => [

@@ -2,6 +2,8 @@
 
 namespace Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment;
 class Types extends \Object\Data {
+	public $module_code = 'DN';
+	public $title = 'D/N Repository Page Fragment Types';
 	public $column_key = 'code';
 	public $column_prefix = 'dn_repopgfrgmtype_';
 	public $orderby = ['dn_repopgfrgmtype_name' => SORT_ASC];

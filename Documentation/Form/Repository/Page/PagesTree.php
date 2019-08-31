@@ -120,7 +120,9 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 	}
 
 	public function renderTreeDocumentField(& $form, & $rows, & $data) {
-		$filename = urlencode(($data['dn_repopage_toc_name'] ?? $data['dn_repopage_name']) . '.html');
+		$filename = ($data['dn_repopage_toc_name'] ?? $data['dn_repopage_name']) . '.html';
+		$filename = str_replace('/', '', $filename);
+		$filename = urlencode($filename);
 		if (!empty($data['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Translations'])) {
 			$temp = current($data['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Translations']);
 			$name = ($temp['dn_repopgtransl_toc_name'] ?? $temp['dn_repopgtransl_name']) . ' ';

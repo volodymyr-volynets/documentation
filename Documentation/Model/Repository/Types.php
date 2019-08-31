@@ -2,6 +2,8 @@
 
 namespace Numbers\Documentation\Documentation\Model\Repository;
 class Types extends \Object\Data {
+	public $module_code = 'DN';
+	public $title = 'D/N Repository Types';
 	public $column_key = 'dn_repotype_id';
 	public $column_prefix = 'dn_repotype_';
 	public $orderby;

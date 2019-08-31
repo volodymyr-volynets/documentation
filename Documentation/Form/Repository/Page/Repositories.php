@@ -41,7 +41,6 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			$form->values['dn_repository_language_code'] = null;
 		}
 		// onchange fields
-		$this->misc_settings['__form_onchange_field_values_key'] = null;
 		if (!empty($form->__options['input']['__form_onchange_field_values_key'])) {
 			$__form_onchange_field_values_key = explode('[::]', $form->__options['input']['__form_onchange_field_values_key']);
 		}

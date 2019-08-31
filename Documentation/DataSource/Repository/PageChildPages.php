@@ -24,6 +24,7 @@ class PageChildPages extends \Object\DataSource {
 		'dn_repopage_id' => ['name' => 'Page #', 'domain' => 'page_id', 'required' => true],
 		'dn_repopage_language_code' => ['name' => 'Language', 'domain' => 'language_code', 'required' => true],
 		'only_one_parent' => ['name' => 'Only one parent', 'type' => 'boolean'],
+		'only_one_title' => ['name' => 'Only one title', 'type' => 'text'],
 	];
 
 	public function query($parameters, $options = []) {
@@ -80,5 +81,11 @@ class PageChildPages extends \Object\DataSource {
 			['AND', ['c.dn_repopgtransl_language_code', '=', $parameters['dn_repopage_language_code']], false],
 		]);
 		$this->query->orderby(['order2' => SORT_ASC]);
+		if (!empty($parameters['only_one_title'])) {
+			$this->query->columns([
+				'b.*',
+			]);
+			$this->query->where('AND', ['b.dn_repopage_name', '=', $parameters['only_one_title']]);
+		}
 	}
 }
