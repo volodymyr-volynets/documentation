@@ -97,5 +97,11 @@ class SubflowFragmentNew extends \Object\Form\Wrapper\Base {
 		$form->values['dn_repopgfragm_repository_id'] = $form->values['dn_repository_id'];
 		$form->values['dn_repopgfragm_version_id'] = $form->values['dn_repository_version_id'];
 		$form->values['dn_repopgfragm_repopage_id'] = $form->values['dn_repopage_id'];
+		// keywords
+		if (isset($form->values['dn_repopgfragm_body'])) {
+			$form->values['dn_repopgfragm_keywords'] = sanitize_string_tags($form->values['dn_repopgfragm_body'], 'all', ['remove_white_spaces' => true]);
+		} else {
+			$form->values['dn_repopgfragm_keywords'] = null;
+		}
 	}
 }

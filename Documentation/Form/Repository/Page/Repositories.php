@@ -25,6 +25,10 @@ class Repositories extends \Object\Form\Wrapper\Base {
 				'dn_repository_version_id' => ['order' => 2, 'label_name' => 'Version', 'domain' => 'version_id', 'null' => true, 'percent' => 30, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Versions::optionsLatestActive', 'no_choose' => true, 'options_depends' => ['dn_repoversion_module_id' => 'dn_repository_module_id', 'dn_repoversion_repository_id' => 'dn_repository_id'], 'options_options' => ['i18n' => 'skip_sorting'], 'onchange' => 'this.form.submit();', 'preserved' => true],
 				'dn_repository_language_code' => ['order' => 3, 'label_name' => 'Language', 'domain' => 'language_code', 'null' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\DataSource\Repository\Languages::optionsActive', 'no_choose' => true, 'options_depends' => ['dn_repolang_module_id' => 'dn_repository_module_id', 'dn_repolang_repository_id' => 'dn_repository_id'], 'onchange' => 'this.form.submit();', 'preserved' => true],
 			],
+			'full_text_search' => [
+				'full_text_search' => ['order' => -200, 'row_order' => 200, 'label_name' => '', 'type' => 'text', 'null' => true, 'percent' => 85, 'placeholder' => 'Search', 'preserved' => true],
+				self::BUTTON_SUBMIT_OTHER => self::BUTTON_SUBMIT_OTHER_DATA + ['style' => 'width: 100%;'],
+			],
 			self::HIDDEN => [
 				'dn_repopage_id' => ['order' => 1, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
 				'__page_deleted' => ['order' => 2, 'label_name' => 'Page Deleted Flag', 'type' => 'boolean', 'null' => true, 'method' => 'hidden', 'preserved' => true],
@@ -85,6 +89,9 @@ class Repositories extends \Object\Form\Wrapper\Base {
 	public function refresh(& $form) {
 		if (!empty($form->values['__page_deleted'])) {
 			$form->error(SUCCESS, \Object\Content\Messages::RECORD_DELETED);
+		}
+		if (!empty($form->values['full_text_search']) && empty($form->values['dn_repository_id'])) {
+			$form->error(DANGER, \Object\Content\Messages::REQUIRED_FIELD, 'dn_repository_id');
 		}
 	}
 }

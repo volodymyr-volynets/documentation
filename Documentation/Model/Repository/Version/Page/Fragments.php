@@ -26,6 +26,7 @@ class Fragments extends \Object\Table {
 		'dn_repopgfragm_type_code' => ['name' => 'Type', 'domain' => 'type_code', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Types'],
 		'dn_repopgfragm_name' => ['name' => 'Title', 'domain' => 'name', 'null' => true],
 		'dn_repopgfragm_body' => ['name' => 'Body', 'type' => 'text', 'null' => true],
+		'dn_repopgfragm_keywords' => ['name' => 'Keywords', 'type' => 'text', 'null' => true],
 		'dn_repopgfragm_order' => ['name' => 'Order', 'domain' => 'big_order'],
 		'dn_repopgfragm_file_1' => ['name' => 'File 1', 'domain' => 'file_id', 'null' => true],
 		'dn_repopgfragm_file_2' => ['name' => 'File 2', 'domain' => 'file_id', 'null' => true],
@@ -55,7 +56,9 @@ class Fragments extends \Object\Table {
 			'foreign_columns' => ['in_language_tenant_id', 'in_language_code']
 		],
 	];
-	public $indexes = [];
+	public $indexes = [
+		'dn_repository_page_fragments_fulltext_idx' => ['type' => 'fulltext', 'columns' => ['dn_repopgfragm_name', 'dn_repopgfragm_keywords']]
+	];
 	public $history = false;
 	public $audit = false;
 	public $options_map = [];

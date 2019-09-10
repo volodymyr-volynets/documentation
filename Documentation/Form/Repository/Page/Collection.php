@@ -3,7 +3,7 @@
 namespace Numbers\Documentation\Documentation\Form\Repository\Page;
 class Collection extends \Object\Form\Wrapper\Collection {
 	public $collection_link = 'dn_repository_page_collection';
-	const BYPASS = ['dn_repository_id', 'dn_repository_version_id', 'dn_repository_language_code', 'dn_repopage_id'];
+	const BYPASS = ['dn_repository_id', 'dn_repository_version_id', 'dn_repository_language_code', 'dn_repopage_id', 'full_text_search'];
 	public $data = [
 		self::MAIN_SCREEN => [
 			'order' => 1000,
@@ -46,6 +46,20 @@ class Collection extends \Object\Form\Wrapper\Collection {
 							],
 							'order' => 2
 						]
+					]
+				],
+				self::SEARCH_ROW => [
+					'order' => 200,
+					self::FORMS => [
+						'dn_page_repository_search' => [
+							'model' => '\Numbers\Documentation\Documentation\Form\Repository\Page\Search',
+							'bypass_input' => self::BYPASS,
+							'options' => [
+								'bypass_hidden_from_input' => self::BYPASS,
+								'percent' => 100
+							],
+							'order' => 1
+						],
 					]
 				],
 				self::WIDGETS_ROW => [
@@ -96,12 +110,19 @@ class Collection extends \Object\Form\Wrapper\Collection {
 	];
 
 	public function distribute() {
-		if (empty($this->values['dn_repository_id'])) {
+		if (!empty($this->values['full_text_search']) && !empty($this->values['dn_repository_id'])) {
 			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW]);
-		}
-		if (empty($this->values['dn_repopage_id'])) {
-			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW][self::FORMS]['dn_page_repository_page_view']);
 			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::WIDGETS_ROW]);
+		} else if (empty($this->values['dn_repository_id'])) {
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW]);
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::SEARCH_ROW]);
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::WIDGETS_ROW]);
+		} else if (empty($this->values['dn_repopage_id'])) {
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::MAIN_ROW][self::FORMS]['dn_page_repository_page_view']);
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::SEARCH_ROW]);
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::WIDGETS_ROW]);
+		} else {
+			unset($this->data[self::MAIN_SCREEN][self::ROWS][self::SEARCH_ROW]);
 		}
 	}
 }

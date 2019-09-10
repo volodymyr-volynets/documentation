@@ -17,6 +17,7 @@ class Fragments {
 		$params['dn_repopage_id'] = $form->values['dn_repopage_id'];
 		$result = '';
 		foreach ($form->values['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragments'] as $k0 => $v0) {
+			$v0['dn_repository_language_code'] = $form->values['dn_repository_language_code'];
 			// menu
 			$menu = [
 				'id' => 'form_repository_pages_menu_' . $v0['dn_repopgfragm_id'],
@@ -130,6 +131,7 @@ class Fragments {
 		if (!empty($name)) {
 			$result.= \HTML::tag(['tag' => 'h4', 'value' => $name]);
 		}
+		$body = self::processLinks($value, $body);
 		$result.= \HTML::div(['value' => $body]);
 		return $result;
 	}
@@ -153,6 +155,7 @@ class Fragments {
 			if (!empty($name)) {
 				$result.= \HTML::tag(['tag' => 'h4', 'value' => $name]);
 			}
+			$body = self::processLinks($value, $body);
 			$result.= \HTML::div(['value' => $body]);
 		$result.= '</div>';
 		return $result;
@@ -177,6 +180,7 @@ class Fragments {
 			if (!empty($name)) {
 				$name = \HTML::tag(['tag' => 'h4', 'value' => $name]);
 			}
+			$body = self::processLinks($value, $body);
 			$result.= \HTML::callout(['type' => 'default', 'value' => $name . $body]);
 		$result.= '</div>';
 		return $result;
@@ -232,5 +236,35 @@ class Fragments {
 			}
 		$result.= '</div>';
 		return $result;
+	}
+
+	/**
+	 * Process links
+	 *
+	 * @param array $value
+	 * @param string $body
+	 * @return string
+	 */
+	public static function processLinks(array $value, string $body) : string {
+		$matches = \Helper\Parser::match($body, '[href[', ']]', ['all' => true]);
+		$translation = current($value['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Translations']);
+		if (!empty($matches)) {
+			foreach ($matches as $k => $v) {
+				$page = \Numbers\Documentation\Documentation\Helper\Pages::fetchOnePage($value['dn_repopgfragm_module_id'], $value['dn_repopgfragm_repository_id'], $value['dn_repopgfragm_version_id'], $value['dn_repopgfragm_language_code'], $v);
+				$hash = \Request::hash([
+					$value['dn_repopgfragm_module_id'],
+					$value['dn_repopgfragm_repository_id'],
+					$value['dn_repopgfragm_version_id'],
+					$value['dn_repository_language_code'],
+					$page['dn_repopage_id'],
+				]);
+				$filename = $v . '.html';
+				$filename = str_replace('/', '', $filename);
+				$filename = urlencode($filename);
+				$href = \Request::buildURL(\Application::get('mvc.controller') . '/_Edit/' . $hash . '/' . $filename, [], '', 'page_title');
+				$body = str_replace('[href[' . $v . ']]', $href, $body);
+			}
+		}
+		return $body;
 	}
 }

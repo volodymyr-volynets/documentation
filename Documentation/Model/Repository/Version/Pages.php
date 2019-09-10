@@ -51,7 +51,9 @@ class Pages extends \Object\Table {
 			'foreign_columns' => ['dn_repository_tenant_id', 'dn_repository_module_id', 'dn_repository_id', 'dn_repository_default_language_code']
 		]
 	];
-	public $indexes = [];
+	public $indexes = [
+		'dn_repository_pages_fulltext_idx' => ['type' => 'fulltext', 'columns' => ['dn_repopage_name', 'dn_repopage_toc_name']]
+	];
 	public $history = false;
 	public $audit = [
 		'map' => [

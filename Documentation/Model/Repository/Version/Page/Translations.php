@@ -41,7 +41,9 @@ class Translations extends \Object\Table {
 			'foreign_columns' => ['in_language_tenant_id', 'in_language_code']
 		],
 	];
-	public $indexes = [];
+	public $indexes = [
+		'dn_repository_page_translations_fulltext_idx' => ['type' => 'fulltext', 'columns' => ['dn_repopgtransl_name', 'dn_repopgtransl_toc_name']]
+	];
 	public $history = false;
 	public $audit = false;
 	public $options_map = [];

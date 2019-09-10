@@ -112,5 +112,11 @@ class SubflowFragmentTranslate extends \Object\Form\Wrapper\Base {
 			$form->error(DANGER, \Object\Content\Messages::OPTIONALLY_REQUIRED_FIELD, 'dn_repofragtransl_name');
 			$form->error(DANGER, \Object\Content\Messages::OPTIONALLY_REQUIRED_FIELD, 'dn_repofragtransl_body');
 		}
+		// keywords
+		if (isset($form->values['dn_repofragtransl_body'])) {
+			$form->values['dn_repofragtransl_keywords'] = sanitize_string_tags($form->values['dn_repofragtransl_body'], 'all', ['remove_white_spaces' => true]);
+		} else {
+			$form->values['dn_repofragtransl_keywords'] = null;
+		}
 	}
 }
