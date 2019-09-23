@@ -6,7 +6,7 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 	public $module_code = 'DN';
 	public $title = 'D/N Page Repository Pages Form';
 	public $options = [
-		'include_css' => '/numbers/media_submodules/Numbers_Documentation_Documentation_Media_CSS_CollectionPages.css'
+		'include_css' => '/numbers/media_submodules/Numbers_Documentation_Documentation_Media_CSS_CollectionPages.css',
 	];
 	public $containers = [
 		'top' => ['default_row_type' => 'grid', 'order' => 100],
@@ -41,11 +41,11 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 		],
 		'tree_container' => [
 			self::HIDDEN => [
-				'dn_repopage_id' => ['order' => 1, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden'],
-				'dn_repopage_parent_repopage_id' => ['order' => 2, 'label_name' => 'Parent Folder', 'domain' => 'folder_id', 'null' => true, 'method' => 'hidden'],
-				'dn_repopage_name' => ['order' => 3, 'label_name' => 'Name', 'domain' => 'name', 'required' => true, 'method' => 'hidden'],
-				'dn_repopage_inactive' => ['order' => 4, 'label_name' => 'Inactive', 'type' => 'boolean', 'method' => 'hidden'],
-				'dn_repopage_optimistic_lock' => ['order' => 5, 'label_name' => 'Optimistic Lock', 'type' => 'text', 'default' => null, 'method' => 'hidden'],
+				//'dn_repopage_id' => ['order' => 1, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden'],
+				//'dn_repopage_parent_repopage_id' => ['order' => 2, 'label_name' => 'Parent Folder', 'domain' => 'folder_id', 'null' => true, 'method' => 'hidden'],
+				//'dn_repopage_name' => ['order' => 3, 'label_name' => 'Name', 'domain' => 'name', 'required' => true, 'method' => 'hidden'],
+				//'dn_repopage_inactive' => ['order' => 4, 'label_name' => 'Inactive', 'type' => 'boolean', 'method' => 'hidden'],
+				//'dn_repopage_optimistic_lock' => ['order' => 5, 'label_name' => 'Optimistic Lock', 'type' => 'text', 'default' => null, 'method' => 'hidden'],
 			]
 		],
 	];

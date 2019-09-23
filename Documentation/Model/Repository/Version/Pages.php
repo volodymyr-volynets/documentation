@@ -52,7 +52,7 @@ class Pages extends \Object\Table {
 		]
 	];
 	public $indexes = [
-		'dn_repository_pages_fulltext_idx' => ['type' => 'fulltext', 'columns' => ['dn_repopage_name', 'dn_repopage_toc_name']]
+		'dn_repository_pages_fulltext_idx' => ['type' => 'fulltext', 'columns' => ['dn_repopage_title_number', 'dn_repopage_name', 'dn_repopage_toc_name']]
 	];
 	public $history = false;
 	public $audit = [

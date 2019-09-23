@@ -80,6 +80,39 @@ class SubflowPageDelete extends \Object\Form\Wrapper\Base {
 			$model->db_object->rollback();
 			return;
 		}
+		// comments
+		$result = \Factory::model($model->comments_model, false)->queryBuilder()
+			->delete()
+			->where('AND', ['wg_comment_module_id', '=', $form->values['__module_id']])
+			->where('AND', ['wg_comment_repopage_id', '=', $child_pages])
+			->query();
+		if (!$result['success']) {
+			$form->error(DANGER, $result['error']);
+			$model->db_object->rollback();
+			return;
+		}
+		// documents
+		$result = \Factory::model($model->documents_model, false)->queryBuilder()
+			->delete()
+			->where('AND', ['wg_document_module_id', '=', $form->values['__module_id']])
+			->where('AND', ['wg_document_repopage_id', '=', $child_pages])
+			->query();
+		if (!$result['success']) {
+			$form->error(DANGER, $result['error']);
+			$model->db_object->rollback();
+			return;
+		}
+		// tags
+		$result = \Factory::model($model->tags_model, false)->queryBuilder()
+			->delete()
+			->where('AND', ['wg_tag_module_id', '=', $form->values['__module_id']])
+			->where('AND', ['wg_tag_repopage_id', '=', $child_pages])
+			->query();
+		if (!$result['success']) {
+			$form->error(DANGER, $result['error']);
+			$model->db_object->rollback();
+			return;
+		}
 		$result = \Numbers\Documentation\Documentation\Model\Repository\Version\Pages::queryBuilderStatic()
 			->delete()
 			->where('AND', ['dn_repopage_module_id', '=', $form->values['__module_id']])

@@ -61,6 +61,7 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			]);
 			$form->values['dn_repository_version_id'] = $temp['dn_repository_latest_version_id'];
 			$form->values['dn_repository_language_code'] = $temp['dn_repository_default_language_code'];
+			$form->values['full_text_search'] = null;
 		}
 		// if any fields changed
 		if (!empty($__form_onchange_field_values_key[0])) {
