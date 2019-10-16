@@ -20,8 +20,8 @@
 		}
 	},
 	"autoload": {
-        "psr-4": {
-            "Numbers\\Documentation\\": ""
-        }
-    }
+		"psr-4": {
+			"Numbers\\Documentation\\": ""
+		}
+	}
 }

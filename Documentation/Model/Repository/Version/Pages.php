@@ -67,6 +67,7 @@ class Pages extends \Object\Table {
 		'dn_repopage_name' => 'name',
 		'dn_repopage_parent_repopage_id' => 'parent',
 		'dn_repopage_order' => 'order',
+		'dn_repopage_icon' => 'icon_class',
 		'dn_repopage_inactive' => 'inactive'
 	];
 	public $options_active = [

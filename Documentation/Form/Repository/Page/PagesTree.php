@@ -90,6 +90,18 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 				],
 			]
 		],
+		'dn_page_repository_page_pdf' => [
+			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowPagePDF',
+			'label_name' => 'Print Repository',
+			'actions' => [
+				'button' => [
+					'label_name' => '',
+					'title' => 'Print Repository',
+					'url_open' => true,
+					'icon' => 'far fa-file-pdf',
+				],
+			]
+		],
 	];
 	public $translations;
 

@@ -21,7 +21,8 @@ class PageChildPages extends \Object\DataSource {
 	public $primary_model;
 	public $parameters = [
 		'dn_repopage_module_id' => ['name' => 'Module #', 'domain' => 'module_id', 'required' => true],
-		'dn_repopage_id' => ['name' => 'Page #', 'domain' => 'page_id', 'required' => true],
+		'dn_repopage_id' => ['name' => 'Page #', 'domain' => 'page_id'], // do not make required
+		'dn_repository_id' => ['name' => 'Repository #', 'domain' => 'repository_id'], // optional as well
 		'dn_repopage_language_code' => ['name' => 'Language', 'domain' => 'language_code', 'required' => true],
 		'only_one_parent' => ['name' => 'Only one parent', 'type' => 'boolean'],
 		'only_one_title' => ['name' => 'Only one title', 'type' => 'text'],
@@ -46,7 +47,14 @@ class PageChildPages extends \Object\DataSource {
 					'order2' => 'inner_a.dn_repopage_order',
 				]);
 				$query->where('AND', ['inner_a.dn_repopage_module_id', '=', $parameters['dn_repopage_module_id']]);
-				$query->where('AND', ['inner_a.dn_repopage_id', '=', $parameters['dn_repopage_id']]);
+				if (!empty($parameters['dn_repopage_id'])) {
+					$query->where('AND', ['inner_a.dn_repopage_id', '=', $parameters['dn_repopage_id']]);
+				} else {
+					$query->where('AND', ['inner_a.dn_repopage_parent_repopage_id', '', null]); // no parents means we are in root
+				}
+				if (!empty($parameters['dn_repository_id'])) {
+					$query->where('AND', ['inner_a.dn_repopage_repository_id', '=', $parameters['dn_repository_id']]);
+				}
 				$query->union('UNION ALL', function(& $query2) {
 					$query2 = \Numbers\Documentation\Documentation\Model\Repository\Version\Pages::queryBuilderStatic(['skip_acl' => true, 'alias' => 'inner_b'])->select();
 					$query2->columns([
