@@ -115,6 +115,45 @@ class PDF {
 							$pdf->writeHTML($body, true, false, true, false, '');
 							$pdf->writeHTML('<b>' . $header . '</b>', true, false, true, false, 'C');
 							break;
+						case 'IMAGE':
+							if (!empty($fragment_translations[$v['id']][$k2])) {
+								$temp_body = \Numbers\Users\Widgets\Comments\Helper\Files::generateOnlyURLS($fragment_translations[$v['id']][$k2], 'dn_repofragtransl_file_', 10);
+							} else {
+								$temp_body = \Numbers\Users\Widgets\Comments\Helper\Files::generateOnlyURLS($v2, 'dn_repopgfragm_file_', 10);
+							}
+							$_y = $pdf->GetY() + 10;
+							$first_image = true;
+							foreach ($temp_body as $v3) {
+								$file_result = \Helper\cURL::get($v3['href']);
+								$filename = \Helper\File::generateTempFileName($v3['extension'], true);
+								file_put_contents($filename, $file_result['data']);
+								// get dimansion
+								$dimension = \Helper\Gd::scaleImage($filename, $pdf->getPageWidth() - 30, $pdf->getPageHeight() - 50);
+								if ($pdf->getPageHeight() - 50 - $_y < $dimension['height']) {
+									$pdf->AddPage();
+									$_y = 15;
+								}
+								$pdf->Image($filename, 15, $_y, $dimension['width'], $dimension['height'], '', '', 'T', false, 300, '', false, false, 0, true, false, false);
+								$_y+= $dimension['height'];
+								unlink($filename);
+								$first_image = false;
+							}
+							$pdf->SetY($_y);
+							$pdf->writeHTML('<b>' . $header . '</b>', true, false, true, false, 'C');
+							break;
+						case 'FILE':
+							if (!empty($fragment_translations[$v['id']][$k2])) {
+								$temp_body = \Numbers\Users\Widgets\Comments\Helper\Files::generateOnlyURLS($fragment_translations[$v['id']][$k2], 'dn_repofragtransl_file_', 10);
+							} else {
+								$temp_body = \Numbers\Users\Widgets\Comments\Helper\Files::generateOnlyURLS($v2, 'dn_repopgfragm_file_', 10);
+							}
+							$body = '';
+							foreach ($temp_body as $v3) {
+								$body.= '<a href="' . $v3['href'] . '">' . $v3['name'] . '</a><br/>';
+							}
+							$pdf->writeHTML($body, true, false, true, false, '');
+							$pdf->writeHTML('<b>' . $header . '</b>', true, false, true, false, 'C');
+							break;
 						case 'TEXT':
 						default:
 							$pdf->writeHTML('<b>' . $header . '</b>', true, false, true, false, '');
