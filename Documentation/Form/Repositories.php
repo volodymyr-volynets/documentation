@@ -94,9 +94,14 @@ class Repositories extends \Object\Form\Wrapper\Base {
 				'dn_repository_icon' => ['order' => 2, 'label_name' => 'Icon', 'domain' => 'icon', 'null' => true, 'percent' => 50, 'method' => 'select', 'options_model' => '\Numbers\Frontend\HTML\FontAwesome\Model\Icons::options', 'searchable' => true],
 			],
 			'dn_repository_public' => [
-				'dn_repository_public' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Public', 'type' => 'boolean', 'percent' => 25],
-				'dn_repository_title_numbering' => ['order' => 2, 'label_name' => 'Title Numbering', 'type' => 'boolean', 'percent' => 25],
-				'dn_repository_catalog_code' => ['order' => 3, 'label_name' => 'Document Catalog', 'domain' => 'group_code', 'null' => true, 'required' => true, 'percent' => 50, 'method' => 'select', 'options_model' => '\Numbers\Users\Documents\Base\Model\Catalogs::optionsActive'],
+				'dn_repository_public' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Public', 'type' => 'boolean', 'percent' => 15],
+				'dn_repository_title_numbering' => ['order' => 2, 'label_name' => 'Title Numbering', 'type' => 'boolean', 'percent' => 15],
+				'dn_repository_featured' => ['order' => 3, 'label_name' => 'Featured', 'type' => 'boolean', 'percent' => 20],
+				'dn_repository_catalog_code' => ['order' => 4, 'label_name' => 'Document Catalog', 'domain' => 'group_code', 'null' => true, 'required' => true, 'percent' => 25, 'method' => 'select', 'options_model' => '\Numbers\Users\Documents\Base\Model\Catalogs::optionsActive'],
+				'dn_repository_badge' => ['order' => 5, 'label_name' => 'Badge', 'domain' => 'name', 'null' => true, 'percent' => 25, 'description' => 'primary;New'],
+			],
+			'dn_repository_description' => [
+				'dn_repository_description' => ['order' => 1, 'row_order' => 300, 'label_name' => 'Description', 'domain' => 'description', 'null' => true, 'required' => true, 'method' => 'wysiwyg', 'wysiwyg_height' => 100],
 			]
 		],
 		'organizations_container' => [
@@ -178,8 +183,6 @@ class Repositories extends \Object\Form\Wrapper\Base {
 			return \HTML::a(['value' => \HTML::icon(['type' => 'fas fa-link']) . ' ' . i18n(null, 'New Version'), 'href' => \Request::buildURL(\Application::get('mvc.controller') . '/_Activate', [
 				'dn_repoversion_repository_id' => $form->values['dn_repository_id'],
 			])]);
-		} else {
-			return '';
 		}
 	}
 }

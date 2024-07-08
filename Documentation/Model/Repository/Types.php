@@ -15,5 +15,6 @@ class Types extends \Object\Data {
 		10 => ['dn_repotype_name' => 'Documentation'],
 		20 => ['dn_repotype_name' => 'Template(s)'],
 		30 => ['dn_repotype_name' => 'Blog'],
+		40 => ['dn_repotype_name' => 'FAQ'],
 	];
 }

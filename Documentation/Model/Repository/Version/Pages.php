@@ -28,6 +28,9 @@ class Pages extends \Object\Table {
 		'dn_repopage_toc_name' => ['name' => 'Title (Table of Contents)', 'domain' => 'name', 'null' => true],
 		'dn_repopage_language_code' => ['name' => 'Language', 'domain' => 'language_code'],
 		'dn_repopage_icon' => ['name' => 'Icon', 'domain' => 'icon', 'null' => true],
+		'dn_repopage_badge' => ['name' => 'Badge', 'domain' => 'name', 'null' => true],
+		'dn_repopage_featured' => ['name' => 'Featured', 'type' => 'boolean'],
+		'dn_repopage_dn_category_code' => ['name' => 'Code', 'domain' => 'group_code', 'null' => true],
 		'dn_repopage_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [

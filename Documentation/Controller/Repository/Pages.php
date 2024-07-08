@@ -3,6 +3,9 @@
 namespace Numbers\Documentation\Documentation\Controller\Repository;
 class Pages extends \Object\Controller\Permission {
 	public function actionEdit() {
+		// we need to set 100% width
+		\Object\Controller::$main_content_class = 'container-fluid';
+		// render pages
 		$input = \Request::input();
 		$hash = \Application::get('mvc.hash_parts');
 		if (!empty($hash)) {

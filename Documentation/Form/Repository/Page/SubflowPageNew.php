@@ -27,7 +27,9 @@ class SubflowPageNew extends \Object\Form\Wrapper\Base {
 				'dn_repopage_title_number' => ['order' => 2, 'label_name' => 'Title Number', 'domain' => 'title_number', 'null' => true, 'required' => 'c'],
 			],
 			'dn_repopage_name' => [
-				'dn_repopage_name' => ['order' => 1, 'row_order' => 400, 'label_name' => 'Title', 'domain' => 'name', 'null' => true, 'required' => true],
+				'dn_repopage_name' => ['order' => 1, 'row_order' => 400, 'label_name' => 'Title', 'domain' => 'name', 'null' => true, 'required' => true, 'percent' => 50],
+				'dn_repopage_dn_category_code' => ['order' => 2, 'label_name' => 'Category', 'domain' => 'group_code', 'null' => true, 'required' => 'c', 'percent' => 35, 'method' => 'select', 'options_model' => \Numbers\Documentation\Documentation\Model\Categories::selectOptionsGrouppedTree, 'options_depends' => ['dn_category_module_id' => 'dn_repopage_module_id']],
+				'dn_repopage_featured' => ['order' => 3, 'label_name' => 'Featured', 'type' => 'boolean', 'percent' => 15],
 			],
 			'dn_repopage_toc_name' => [
 				'dn_repopage_toc_name' => ['order' => 1, 'row_order' => 500, 'label_name' => 'Title (Table of Contents)', 'domain' => 'name', 'null' => true, 'percent' => 50],
@@ -46,7 +48,7 @@ class SubflowPageNew extends \Object\Form\Wrapper\Base {
 		]
 	];
 	public $collection = [
-		'name' => 'Pages',
+		'name' => 'DN Pages',
 		'model' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Pages',
 		'pk' => ['dn_repopage_tenant_id', 'dn_repopage_module_id', 'dn_repopage_id'],
 	];
@@ -78,7 +80,7 @@ class SubflowPageNew extends \Object\Form\Wrapper\Base {
 		}
 	}
 
-	public function validate(& $form) {
+	public function validate(\Object\Form\Base & $form) {
 		$repository = \Numbers\Documentation\Documentation\Model\Repositories::getStatic([
 			'where' => [
 				'dn_repository_module_id' => $form->values['__module_id'],
@@ -96,6 +98,9 @@ class SubflowPageNew extends \Object\Form\Wrapper\Base {
 			if (empty($form->values['dn_repopage_title_number'])) {
 				$form->error(DANGER, \Object\Content\Messages::REQUIRED_FIELD, 'dn_repopage_title_number');
 			}
+		}
+		if ($repository['dn_repository_type_id'] == 30) {
+			$form->validateQuikRequired('dn_repopage_dn_category_code');
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Numbers\Documentation\Documentation\Form\Repository\Page;
+namespace Numbers\Documentation\Documentation\Form\Repository\OpenBlog;
 class Repositories extends \Object\Form\Wrapper\Base {
 	public $form_link = 'dn_page_repositories';
 	public $module_code = 'DN';
@@ -8,11 +8,13 @@ class Repositories extends \Object\Form\Wrapper\Base {
 	public $options = [
 		'actions' => [
 			'refresh' => [
-				'preserve_values' => ['dn_repository_version_id', 'dn_repository_language_code', 'dn_repopage_id']
+				'preserve_values' => ['dn_repository_version_id', 'dn_repository_language_code', 'dn_repopage_module_id', 'dn_repopage_id']
 			],
 		],
 		'no_ajax_form_reload' => true,
 		'skip_optimistic_lock' => true,
+		'skip_acl' => true,
+		'hide_module_id' => true
 	];
 	public $containers = [
 		'top' => ['default_row_type' => 'grid', 'order' => 100],
@@ -21,7 +23,7 @@ class Repositories extends \Object\Form\Wrapper\Base {
 	public $elements = [
 		'top' => [
 			'dn_repository_id' => [
-				'dn_repository_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Repository', 'domain' => 'repository_id', 'null' => true, 'required' => true, 'percent' => 40, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repositories::optionsActive', 'options_depends' => ['dn_repository_module_id' => 'dn_repository_module_id'], 'track_previous_values' => true, 'onchange' => 'this.form.submit();', 'preserved' => true],
+				'dn_repository_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Repository', 'domain' => 'repository_id', 'null' => true, 'required' => true, 'percent' => 40, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repositories::optionsActive', 'options_depends' => ['dn_repository_module_id' => 'dn_repository_module_id'], 'options_params' => ['dn_repository_type_id' => 30], 'track_previous_values' => true, 'onchange' => 'this.form.submit();', 'preserved' => true],
 				'dn_repository_version_id' => ['order' => 2, 'label_name' => 'Version', 'domain' => 'version_id', 'null' => true, 'percent' => 30, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Versions::optionsLatestActive', 'no_choose' => true, 'options_depends' => ['dn_repoversion_module_id' => 'dn_repository_module_id', 'dn_repoversion_repository_id' => 'dn_repository_id'], 'options_options' => ['i18n' => 'skip_sorting'], 'onchange' => 'this.form.submit();', 'preserved' => true],
 				'dn_repository_language_code' => ['order' => 3, 'label_name' => 'Language', 'domain' => 'language_code', 'null' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\DataSource\Repository\Languages::optionsActive', 'no_choose' => true, 'options_depends' => ['dn_repolang_module_id' => 'dn_repository_module_id', 'dn_repolang_repository_id' => 'dn_repository_id'], 'onchange' => 'this.form.submit();', 'preserved' => true],
 			],
@@ -29,11 +31,12 @@ class Repositories extends \Object\Form\Wrapper\Base {
 				'full_text_search' => ['order' => -200, 'row_order' => 200, 'label_name' => '', 'type' => 'text', 'null' => true, 'percent' => 100, 'placeholder' => 'Search', 'preserved' => true],
 			],
 			'buttons' => [
-				self::BUTTON_SUBMIT_OTHER => ['order' => 1, 'row_order' => 300] + self::BUTTON_SUBMIT_OTHER_DATA + ['style' => 'width: 100%;'],
+				self::BUTTON_SUBMIT_OTHER => ['order' => 1, 'row_order' => 300, 'type' => 'secondary'] + self::BUTTON_SUBMIT_OTHER_DATA + ['style' => 'width: 100%;'],
 			],
 			self::HIDDEN => [
-				'dn_repopage_id' => ['order' => 1, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
-				'__page_deleted' => ['order' => 2, 'label_name' => 'Page Deleted Flag', 'type' => 'boolean', 'null' => true, 'method' => 'hidden', 'preserved' => true],
+				'dn_repopage_id' => ['label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
+				'dn_repopage_module_id' => ['label_name' => 'Page Module #', 'domain' => 'module_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
+				'__page_deleted' => ['label_name' => 'Page Deleted Flag', 'type' => 'boolean', 'null' => true, 'method' => 'hidden', 'preserved' => true],
 			]
 		],
 	];
@@ -43,6 +46,11 @@ class Repositories extends \Object\Form\Wrapper\Base {
 	];
 
 	public function overrides(& $form) {
+		\Application::set('old.controller.class', get_class(\Application::$controller));
+		$temp_reflection_obj = new \ReflectionClass(\Application::$controller);
+		\Application::set('old.controller.dir', pathinfo($temp_reflection_obj->getFileName(), PATHINFO_DIRNAME) . '/');
+		\Application::$controller = new \Object\Controller('\Numbers\Documentation\Documentation\Controller\Repository\Pages');
+		// other logic
 		if (empty($form->values['dn_repository_id'])) {
 			$form->values['dn_repository_version_id'] = null;
 			$form->values['dn_repository_language_code'] = null;
@@ -50,6 +58,12 @@ class Repositories extends \Object\Form\Wrapper\Base {
 		// onchange fields
 		if (!empty($form->__options['input']['__form_onchange_field_values_key'])) {
 			$__form_onchange_field_values_key = explode('[::]', $form->__options['input']['__form_onchange_field_values_key']);
+		}
+		// if we submit though URL.
+		if (empty($__form_onchange_field_values_key[0]) && !empty($form->values['dn_repository_id'])) {
+			if (empty($form->values['dn_repository_language_code'])) {
+				$__form_onchange_field_values_key[0] = 'dn_repository_id';
+			}
 		}
 		// changes in fields
 		if (($__form_onchange_field_values_key[0] ?? '') == 'dn_repository_id' && !empty($form->values['dn_repository_id'])) {

@@ -38,6 +38,7 @@ class Fragments extends \Object\Table {
 		'dn_repopgfragm_file_8' => ['name' => 'File 8', 'domain' => 'file_id', 'null' => true],
 		'dn_repopgfragm_file_9' => ['name' => 'File 9', 'domain' => 'file_id', 'null' => true],
 		'dn_repopgfragm_file_10' => ['name' => 'File 10', 'domain' => 'file_id', 'null' => true],
+		'dn_repopgfragm_face_picture' => ['name' => 'Face Picture', 'type' => 'boolean'],
 		'dn_repopgfragm_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [

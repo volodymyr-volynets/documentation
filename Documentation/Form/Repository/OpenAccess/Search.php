@@ -1,12 +1,13 @@
 <?php
 
-namespace Numbers\Documentation\Documentation\Form\Repository\Page;
+namespace Numbers\Documentation\Documentation\Form\Repository\OpenAccess;
 class Search extends \Object\Form\Wrapper\List2 {
 	public $form_link = 'dn_page_repository_search';
 	public $module_code = 'DN';
 	public $title = 'D/N Repository Search List';
 	public $options = [
-		'include_css' => '/numbers/media_submodules/Numbers_Documentation_Documentation_Media_CSS_CollectionPages.css'
+		'include_css' => '/numbers/media_submodules/Numbers_Documentation_Documentation_Media_CSS_CollectionPages.css',
+		'skip_acl' => true
 	];
 	public $containers = [
 		'top' => ['default_row_type' => 'grid', 'order' => 100],
@@ -51,7 +52,7 @@ class Search extends \Object\Form\Wrapper\List2 {
 		self::LIST_BUTTONS => self::LIST_BUTTONS_DATA,
 		self::LIST_CONTAINER => [
 			'row1' => [
-				'dn_repopage_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'percent' => 15, 'skip_fts' => true, 'custom_renderer' => '\Numbers\Documentation\Documentation\Form\Repository\Page\Search::renderPageId'],
+				'dn_repopage_id' => ['order' => 1, 'row_order' => 100, 'label_name' => 'Page #', 'domain' => 'page_id', 'null' => true, 'percent' => 15, 'skip_fts' => true, 'custom_renderer' => 'self::renderPageId'],
 				'dn_repopage_name' => ['order' => 2, 'label_name' => 'Name', 'domain' => 'name', 'percent' => 85, 'custom_renderer' => '\Numbers\Documentation\Documentation\Form\Repository\Page\Search::renderTitle'],
 			],
 			'row2' => [
@@ -195,7 +196,7 @@ class Search extends \Object\Form\Wrapper\List2 {
 			$form->values['dn_repository_language_code'],
 			$value,
 		]);
-		$href = \Request::buildURL(\Application::get('mvc.full') . '/_Edit/' . $hash . '/' . $filename, [], \Request::host(), 'page_title');
+		$href = \Request::buildURL(\Application::get('mvc.full') . '/_Index/' . $hash . '/' . $filename, [], \Request::host(), 'page_title');
 		return \HTML::a(['href' => $href, 'value' => $value]);
 	}
 

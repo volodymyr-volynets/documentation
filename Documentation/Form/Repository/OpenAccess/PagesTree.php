@@ -1,16 +1,17 @@
 <?php
 
-namespace Numbers\Documentation\Documentation\Form\Repository\Page;
+namespace Numbers\Documentation\Documentation\Form\Repository\OpenAccess;
 class PagesTree extends \Object\Form\Wrapper\Base {
 	public $form_link = 'dn_page_repository_page_tree';
 	public $module_code = 'DN';
 	public $title = 'D/N Page Repository Pages Form';
 	public $options = [
 		'include_css' => '/numbers/media_submodules/Numbers_Documentation_Documentation_Media_CSS_CollectionPages.css',
+		'skip_acl' => true
 	];
 	public $containers = [
 		'top' => ['default_row_type' => 'grid', 'order' => 100],
-		'actions' => ['default_row_type' => 'grid', 'order' => 200, 'custom_renderer' => '\Numbers\Documentation\Documentation\Form\Repository\Page\PagesTree::renderActions'],
+		'actions' => ['default_row_type' => 'grid', 'order' => 200, 'custom_renderer' => 'self::renderActions'],
 		'tree_container' => [
 			'type' => 'trees',
 			'details_rendering_type' => 'name_only',
@@ -20,7 +21,7 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 			'details_tree_key' => 'dn_repopage_id',
 			'details_tree_i18n' => 'skip_sorting',
 			'details_tree_parent_key' => 'dn_repopage_parent_repopage_id',
-			'details_tree_name_only_custom_renderer' => '\Numbers\Documentation\Documentation\Form\Repository\Page\PagesTree::renderTreeDocumentField',
+			'details_tree_name_only_custom_renderer' => 'self::renderTreeDocumentField',
 			'order' => 300
 		],
 	];
@@ -34,6 +35,7 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 				'dn_repoversion_repository_id' => ['order' => 1, 'label_name' => 'Repository #', 'domain' => 'repository_id', 'null' => true, 'method' => 'hidden'],
 				'dn_repoversion_version_id' => ['order' => 2, 'label_name' => 'Version #', 'domain' => 'version_id', 'null' => true, 'method' => 'hidden'],
 				// old records
+				'dn_repository_module_id' => ['label_name' => 'Repository Module #', 'domain' => 'module_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
 				'dn_repository_id' => ['order' => 3, 'label_name' => 'Repository', 'domain' => 'repository_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
 				'dn_repository_version_id' => ['order' => 4, 'label_name' => 'Version', 'domain' => 'version_id', 'null' => true, 'method' => 'hidden', 'preserved' => true],
 				'dn_repository_language_code' => ['order' => 5, 'label_name' => 'Language', 'domain' => 'language_code', 'null' => true, 'method' => 'hidden', 'preserved' => true],
@@ -76,37 +78,12 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 			],
 		],
 	];
-	public $subforms = [
-		'dn_page_repository_page_new' => [
-			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowPageNew',
-			'label_name' => 'New Page',
-			'actions' => [
-				'button' => [
-					'label_name' => '',
-					'title' => 'New Page',
-					'url_open' => true,
-					'acl_controller_actions' => [['Edit', 'Record_New']],
-					'icon' => 'far fa-file',
-				],
-			]
-		],
-		'dn_page_repository_page_pdf' => [
-			'form' => '\Numbers\Documentation\Documentation\Form\Repository\Page\SubflowPagePDF',
-			'label_name' => 'Print Repository',
-			'actions' => [
-				'button' => [
-					'label_name' => '',
-					'title' => 'Print Repository',
-					'url_open' => true,
-					'icon' => 'far fa-file-pdf',
-				],
-			]
-		],
-	];
+	public $subforms = [];
 	public $translations;
 
 	public function overrides(& $form) {
 		if (empty($form->values['dn_repoversion_version_id']) && !empty($form->values['dn_repository_version_id'])) {
+			$form->values['dn_repoversion_module_id'] = $form->values['dn_repository_module_id'];
 			$form->values['dn_repoversion_repository_id'] = $form->values['dn_repository_id'];
 			$form->values['dn_repoversion_version_id'] = $form->values['dn_repository_version_id'];
 		}
@@ -115,7 +92,7 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 	public function renderActions(& $form) {
 		$buttons = [];
 		$params = [];
-		$params['dn_repository_module_id'] = $params['__module_id'] = $form->values['__module_id'];
+		$params['dn_repository_module_id'] = $params['__module_id'] = $form->values['dn_repository_module_id'];
 		$params['dn_repository_id'] = $form->values['dn_repository_id'];
 		$params['dn_repository_version_id'] = $form->values['dn_repository_version_id'];
 		$params['dn_repository_language_code'] = $form->values['dn_repository_language_code'];
@@ -156,7 +133,7 @@ class PagesTree extends \Object\Form\Wrapper\Base {
 			$form->values['dn_repository_language_code'],
 			$data['dn_repopage_id'],
 		]);
-		$href = \Request::buildURL('/Default' . \Application::get('mvc.controller') . '/_Edit/' . $hash . '/' . $filename, [], \Request::host(), 'page_title');
+		$href = \Request::buildFromName('D/N Documentation (Open Access)', 'Index/' . $hash . '/' . $filename, [], \Request::host(), 'page_title');
 		$result = \HTML::a(['value' => $name, 'href' => $href]);
 		return [
 			'name' => $result,

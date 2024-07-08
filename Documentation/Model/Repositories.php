@@ -19,7 +19,7 @@ class Repositories extends \Object\Table {
 		'dn_repository_module_id' => ['name' => 'Module #', 'domain' => 'module_id'],
 		'dn_repository_id' => ['name' => 'Repository #', 'domain' => 'repository_id_sequence'],
 		'dn_repository_code' => ['name' => 'Code', 'domain' => 'group_code'],
-		'dn_repository_type_id' => ['name' => 'Type', 'domain' => 'type_id', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Types'],
+		'dn_repository_type_id' => ['name' => 'Type', 'domain' => 'type_id', 'options_model' => \Numbers\Documentation\Documentation\Model\Repository\Types::class],
 		'dn_repository_name' => ['name' => 'Name', 'domain' => 'name'],
 		'dn_repository_icon' => ['name' => 'Icon', 'domain' => 'icon', 'null' => true],
 		'dn_repository_public' => ['name' => 'Public', 'type' => 'boolean'],
@@ -27,6 +27,9 @@ class Repositories extends \Object\Table {
 		'dn_repository_default_language_code' => ['name' => 'Default Language', 'domain' => 'language_code', 'null' => true],
 		'dn_repository_latest_version_id' => ['name' => 'Latest Version #', 'domain' => 'version_id', 'null' => true],
 		'dn_repository_catalog_code' => ['name' => 'Catalog Code', 'domain' => 'group_code'],
+		'dn_repository_description' => ['name' => 'Description', 'domain' => 'description', 'null' => true],
+		'dn_repository_featured' => ['name' => 'Featured', 'type' => 'boolean'],
+		'dn_repository_badge' => ['name' => 'Badge', 'domain' => 'name', 'null' => true],
 		'dn_repository_inactive' => ['name' => 'Inactive', 'type' => 'boolean']
 	];
 	public $constraints = [
