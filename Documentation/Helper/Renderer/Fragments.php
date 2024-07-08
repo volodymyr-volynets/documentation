@@ -4,7 +4,7 @@ namespace Numbers\Documentation\Documentation\Helper\Renderer;
 class Fragments {
 
 	/**
-	 * Render
+	 * Render editable
 	 *
 	 * @param object $form
 	 */
@@ -82,7 +82,24 @@ class Fragments {
 			$languages2.= '</div>';
 			// render
 			$result.= '<div class="form_dn_page_repository_page_view_form_fragment_holder">';
-				$result.= '<table width="100%"><tr><td width="50%">' . $languages2 . '</td><td width="50%" align="right">' . \HTML::menuMini($menu) . '</td></tr></table>';
+				$result.= '<table width="100%"><tr><td width="50%">' . $languages2 . '</td><td width="50%"><div style="float: right;">' . \HTML::menuMini($menu) . '</div></td></tr></table>';
+				$result.= self::{'renderForm' . $v0['dn_repopgfragm_type_code']}($v0);
+			$result.= '</div>';
+		}
+		return $result;
+	}
+
+	/**
+	 * Render readonly
+	 *
+	 * @param object $form
+	 */
+	public static function renderReadonlyForm(& $form, & $options, & $value, & $neighbouring_values) {
+		$result = '';
+		foreach ($form->values['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragments'] as $k0 => $v0) {
+			$v0['dn_repository_language_code'] = $form->values['dn_repository_language_code'];
+			// render
+			$result.= '<div class="form_dn_page_repository_page_view_form_fragment_holder">';
 				$result.= self::{'renderForm' . $v0['dn_repopgfragm_type_code']}($v0);
 			$result.= '</div>';
 		}

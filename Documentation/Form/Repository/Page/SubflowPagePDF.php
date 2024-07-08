@@ -55,7 +55,7 @@ class SubflowPagePDF extends \Object\Form\Wrapper\Base {
 		]);
 		$filename = urldecode($repository['dn_repository_name']) . '.pdf';
 		$crypt = new \Crypt();
-		$href = \Request::buildURL(\Application::get('mvc.controller') . '/_PDF/' . $filename, ['token' => urldecode($crypt->tokenCreate($hash, 'print.pdf'))], '', 'page_title');
+		$href = \Request::buildURL(\Application::get('mvc.controller') . '/_PDF/' . $filename, ['token' => urldecode($crypt->tokenCreate($hash, 'print.pdf'))], \Request::host(), 'page_title');
 		$form->redirect($href);
 	}
 }

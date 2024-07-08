@@ -257,7 +257,7 @@ class PagesView extends \Object\Form\Wrapper\Base {
 			unset($temp[$current_parent_id2]);
 		}
 		$result = \HTML::a(['id' => 'page_title']);
-		$result.= '<table width="100%"><tr><td width="50%">' . implode(' / ', $breadcrumbs) . '</td><td width="50%" align="right">' . \HTML::menuMini($menu) . '</td></tr></table>';
+		$result.= '<table width="100%"><tr><td width="50%">' . implode(' / ', $breadcrumbs) . '</td><td width="50%"><div style="float: right;">' . \HTML::menuMini($menu) . '</div></td></tr></table>';
 		return $result;
 	}
 

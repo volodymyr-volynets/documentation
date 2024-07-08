@@ -20,8 +20,9 @@ class SubflowFragmentFileNew extends \Object\Form\Wrapper\Base {
 				'dn_repopgfragm_inactive' => ['order' => 2, 'label_name' => 'Inactive', 'type' => 'boolean', 'percent' => 5]
 			],
 			'dn_repopgfragm_order' => [
-				'dn_repopgfragm_order' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Order', 'domain' => 'big_order', 'null' => true, 'required' => true],
-				'dn_repopgfragm_type_code' => ['order' => 2, 'label_name' => 'Type', 'domain' => 'type_code', 'null' => true, 'required' => true, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Types', 'options_params' => ['dn_repopgfrgmtype_group' => 'FILE'], 'onchange' => 'this.form.submit();'],
+				'dn_repopgfragm_order' => ['order' => 1, 'row_order' => 200, 'label_name' => 'Order', 'domain' => 'big_order', 'null' => true, 'required' => true, 'percent' => 50],
+				'dn_repopgfragm_type_code' => ['order' => 2, 'label_name' => 'Type', 'domain' => 'type_code', 'null' => true, 'required' => true, 'percent' => 25, 'method' => 'select', 'options_model' => '\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Fragment\Types', 'options_params' => ['dn_repopgfrgmtype_group' => 'FILE'], 'onchange' => 'this.form.submit();'],
+				'dn_repopgfragm_face_picture' => ['order' => 3, 'label_name' => 'Face Picture', 'type' => 'boolean', 'percent' => 25],
 			],
 			'dn_repopgfragm_name' => [
 				'dn_repopgfragm_name' => ['order' => 1, 'row_order' => 300, 'label_name' => 'Title', 'domain' => 'name', 'null' => true],

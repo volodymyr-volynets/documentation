@@ -4,7 +4,7 @@ namespace Numbers\Documentation\Documentation\Helper\Renderer;
 class Titles {
 
 	/**
-	 * Render
+	 * Render editable
 	 *
 	 * @param object $form
 	 */
@@ -55,6 +55,29 @@ class Titles {
 				]
 			]) . '</div>';
 		}
+		return $result;
+	}
+
+	/**
+	 * Render readonly
+	 *
+	 * @param object $form
+	 */
+	public static function renderReadonlyForm(& $form, & $options, & $value, & $neighbouring_values) {
+		$result = '';
+		$result.= '<h1>';
+		if (!empty($form->values['dn_repopage_title_number'])) {
+			$result.= \Format::id($form->values['dn_repopage_title_number']) . ' ';
+		}
+		if (!empty($form->values['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Translations'])) {
+			$temp = current($form->values['\Numbers\Documentation\Documentation\Model\Repository\Version\Page\Translations']);
+			$result.= $temp['dn_repopgtransl_name'];
+			$language = \Numbers\Internalization\Internalization\Helper\Languages::renderOneLanguage($temp['dn_repopgtransl_language_code']);
+		} else {
+			$result.= $form->values['dn_repopage_name'];
+			$language = \Numbers\Internalization\Internalization\Helper\Languages::renderOneLanguage($form->values['dn_repopage_language_code']);
+		}
+		$result.= '</h1>';
 		return $result;
 	}
 }
