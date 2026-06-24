@@ -1,0 +1,11 @@
+{
+    "BugReport": "Bug Report",
+    "F8DefaultGroups": "F/8 Default Groups",
+    "F8Feedback": "F/8 Feedback",
+    "F8FeedbackSubFormTool": "F/8 Feedback SubForm Tool",
+    "F8UnderscorefeedbackUnderscoresubformUnderscoretool": "f8_feedback_subform_tool",
+    "Feedback": "Feedback",
+    "GeneralFeedback": "General Feedback",
+    "Miscellaneous": "Miscellaneous",
+    "ToolColonF8UnderscorefeedbackUnderscoresubformUnderscoretoolDescriptionColonOpensAFeedBackFormForUsersToSubmitTheirFeedbackDotWhenToUseColonWhenYouWantToCollectFeedbackFromUsersAboutASpecificTopicCommaFeatureCommaOrExperienceDotHowToUseColon1DotOpenTheFeedbackSubFormWithASpecificContextDot2DotSubformWouldCollectUserFeedbackAndWouldReturnSummaryOfTheFeedbackDotReturnsColonDashSummaryOfTheFeedbackProvidedByUsersDot": "Tool: f8_feedback_subform_tool\n\nDescription:\nOpens a feed back form for users to submit their feedback.\n\nWhen to use:\nWhen you want to collect feedback from users about a specific topic, feature, or experience.\n\nHow to use:\n1. Open the feedback sub form with a specific context.\n2. Subform would collect user feedback and would return summary of the feedback.\n\nReturns:\n- Summary of the feedback provided by users."
+}

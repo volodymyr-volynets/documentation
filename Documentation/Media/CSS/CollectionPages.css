@@ -26,6 +26,9 @@
 .form_dn_page_repository_page_view_form_fragment_holder {
 	margin-top: 1em;
 }
+.form_dn_page_repository_page_view_form_fragment_holder_text {
+	position: relative;
+}
 .form_dn_page_repository_page_view_form_fragment_code_title {
 	font-size: 1em;
 	font-style: italic;
